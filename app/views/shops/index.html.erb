@@ -1,0 +1,26 @@
+<h1>Shops</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Industry</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shops.each do |shop| %>
+      <tr>
+        <td><%= shop.name %></td>
+        <%# <td><%= shop.industry.name %>
+        <td>
+          <%= link_to 'View', shop %>
+          <%= link_to 'Edit', edit_shop_path(shop) %>
+          <%= link_to 'Delete', shop, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Shop', new_shop_path %>
