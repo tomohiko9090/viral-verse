@@ -1,0 +1,9 @@
+
+<% if @review.score.between?(1, 3) %>
+  <p>フィードバックありがとうございました。</p>
+  <p>いただいたフィードバックを元に改善して参ります。</p>
+<% else %>
+  <p>レビューありがとうございます!</p>
+  <p>よければ以下のリンクから、googleマップの口コミにも評価いただけませんか？</p>
+  <%= button_to 'お店のページへ', @shop.url, method: :get, form: { target: '_blank' } %>
+<% end %>

@@ -1,0 +1,26 @@
+<h1><%= @shop.name %>のレビューを投稿</h1>
+
+<%= form_with(model: [@shop, @review], local: true) do |form| %>
+  <% if @review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+      <ul>
+        <% @review.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :score, '星の数' %>
+    <%= form.number_field :score, in: 1..5, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :comments, 'コメント' %>
+    <%= form.text_area :comments, required: true %>
+  </div>
+
+  <%= form.submit 'レビューを投稿' %>
+<% end %>

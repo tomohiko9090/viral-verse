@@ -1,3 +1,37 @@
 class Shop < ApplicationRecord
-  # belongs_to :industry
+  has_many :reviews, dependent: :destroy
+
+  validates :name, presence: true
+  validates :url, presence: true
+
+  after_create :generate_qr_code
+
+  private
+
+  def generate_qr_code
+    host = Rails.env.production? ? 'kuchikomi.elevator' : 'http://127.0.0.1:3000'
+    review_url = Rails.application.routes.url_helpers.new_shop_review_url(self, host: host)
+    qr = RQRCode::QRCode.new(review_url)
+    png = qr.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: 'black',
+      file: nil,
+      fill: 'white',
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 120
+    )
+
+    file_name = "shop_review_qr_#{id}.png"
+    file_path = Rails.root.join('public', 'qr_codes', file_name)
+
+    File.open(file_path, 'wb') { |f| f.write(png.to_s) }
+
+    update(qr_code: "/qr_codes/#{file_name}")
+  rescue => e
+    Rails.logger.error "Failed to generate QR code for Shop #{id}: #{e.message}"
+  end
 end

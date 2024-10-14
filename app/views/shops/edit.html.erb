@@ -1,6 +1,26 @@
-<h1>Editing Shop</h1>
+<div>
+  <h1>Editing Shop: <%= @shop.name %></h1>
 
-<%= render 'form', shop: @shop %>
+  <div>
+    <%= render 'form', shop: @shop %>
+  </div>
 
-<%= link_to 'Show', @shop %> |
-<%= link_to 'Back', shops_path %>
+  <div style="margin-top: 20px;">
+    <%= link_to 'Show', @shop %>
+    <%= link_to 'Back to Shops', shops_path %>
+    <button onclick="document.getElementById('deleteModal').style.display='block'">Delete</button>
+  </div>
+</div>
+
+<div id="deleteModal" data-controller="modal" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+  <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 style="margin-top: 0;">Confirm Deletion</h2>
+    <p>Are you sure you want to delete the shop "<%= @shop.name %>"? This action cannot be undone.</p>
+    <div style="text-align: right; margin-top: 20px;">
+      <%= form_with(model: @shop, method: :delete, local: true, data: { turbo: false }) do |f| %>
+        <%= f.submit 'Yes, Delete', style: "background-color: #dc3545; color: white; border: none; padding: 10px 15px; margin-right: 10px; cursor: pointer;", data: { confirm: "Are you absolutely sure?" } %>
+      <% end %>
+      <button onclick="document.getElementById('deleteModal').style.display='none'" style="background-color: #6c757d; color: white; border: none; padding: 10px 15px; cursor: pointer;">Cancel</button>
+    </div>
+  </div>
+</div>

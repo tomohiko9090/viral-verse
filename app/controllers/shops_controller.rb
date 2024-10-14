@@ -12,16 +12,17 @@ class ShopsController < ApplicationController
     @shop = Shop.new
   end
 
+  def edit
+  end
+
   def create
     @shop = Shop.new(shop_params)
+
     if @shop.save
-      redirect_to @shop, notice: 'Shop was successfully created.'
+      redirect_to @shop, notice: 'Shop was successfully created. QR code has been generated.'
     else
       render :new
     end
-  end
-
-  def edit
   end
 
   def update
@@ -44,6 +45,6 @@ class ShopsController < ApplicationController
   end
 
   def shop_params
-    params.require(:shop).permit(:name, :url, :industry_id)
+    params.require(:shop).permit(:name, :url)
   end
 end
