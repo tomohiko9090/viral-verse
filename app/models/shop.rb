@@ -6,8 +6,6 @@ class Shop < ApplicationRecord
 
   after_create :generate_qr_code
 
-  private
-
   def generate_qr_code
     host = Rails.env.production? ? 'kuchikomi.elevator' : 'http://127.0.0.1:3000'
     review_url = Rails.application.routes.url_helpers.new_shop_review_url(self, host: host)

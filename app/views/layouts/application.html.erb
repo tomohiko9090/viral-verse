@@ -10,7 +10,31 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+<body>
+    <header>
+      <% if logged_in? %>
+        <nav>
+          <% if current_user.admin? %>
+            <%= link_to 'ホーム（管理者）', root_path %>
+          <% elsif current_user.owner? && current_user.shop_id %>
+            <%= link_to 'マイショップ', shop_path(current_user.shop_id) %>
+          <% end %>
+          <%= link_to current_user.name, '#' %>
+          <%= button_to 'ログアウト', logout_path, method: :delete %>
+        </nav>
+      <% end %>
+    </header>
+
+    <% flash.each do |type, message| %>
+      <div class="flash <%= type %>">
+        <%= message %>
+      </div>
+    <% end %>
+
     <%= yield %>
+
+    <footer>
+      <!-- フッターコンテンツ -->
+    </footer>
   </body>
 </html>

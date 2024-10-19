@@ -1,4 +1,6 @@
 class ShopsController < ApplicationController
+  before_action :require_login # ログインしないとすべてアクセスできない
+  before_action :require_admin, only: [:index, :new, :create, :destroy] # 一覧、新規作成、削除ができるのは管理者だけ
   before_action :set_shop, only: [:show, :edit, :update, :destroy]
 
   def index
