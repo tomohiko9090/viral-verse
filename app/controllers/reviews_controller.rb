@@ -1,4 +1,6 @@
 class ReviewsController < ApplicationController
+  before_action :require_login, only: [:index]
+
   before_action :set_shop
   before_action :set_review, only: [:notice]
 

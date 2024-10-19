@@ -1,11 +1,11 @@
 <h1><%= @shop.name %></h1>
 
-<p><strong>URL:</strong> <%= link_to @shop.url, @shop.url, target: "_blank" %></p>
-<%# <p><strong>Industry:</strong> <%= @shop.industry.name %>
+<p><strong>口コミURL:</strong> <%= link_to @shop.url, @shop.url, target: "_blank" %></p>
 
-<h2>QR Code</h2>
+<h2>レビュー QR</h2>
+<%= link_to 'レビューリンク', new_shop_review_path(@shop) %>
+<br>
 <%= image_tag @shop.qr_code if @shop.qr_code.present? %>
 
-<%# <%= link_to 'Leave a Review', review_path(@shop) %>
-<%= link_to 'Edit', edit_shop_path(@shop) %> |
-<%= link_to 'Back to Shops', shops_path %>
+<%= link_to '店舗一覧', shops_path %> |
+<%= link_to '編集', edit_shop_path(@shop) %>
