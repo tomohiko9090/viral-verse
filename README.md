@@ -2,11 +2,11 @@
 
 ## ユーザー権限と機能アクセス
 
-| ユーザー権限 | アクセス範囲 | ShopsController | ReviewsController |
-|-------------|------------|-----------------|-------------------|
-| admin       | すべてのお店 | すべて            | すべて              |
-| owner       | 特定のお店   | show, edit, update | すべて              |
-| customer    | 特定のお店   | アクセス不可           | new, create, notice |
+| ユーザー権限 | 利用者 | アクセス範囲 | ShopsController | ReviewsController |
+|-------------|------------|------------|-----------------|-------------------|
+| admin       | 開発者・運用者 | すべてのお店 | すべて            | すべて              |
+| owner       | オーナー・店長・店員 | 特定のお店   | show, edit, update | すべて              |
+| customer    | お店に来たお客さん | 特定のお店   | アクセス不可           | new, create, notice |
 
 
 ## DB
