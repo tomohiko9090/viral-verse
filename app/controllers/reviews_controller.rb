@@ -1,6 +1,5 @@
 class ReviewsController < ApplicationController
   before_action :require_login, only: [:index]
-
   before_action :set_shop
   before_action :set_review, only: [:notice]
 
@@ -15,17 +14,13 @@ class ReviewsController < ApplicationController
   def create
     @review = @shop.reviews.new(review_params)
     if @review.save
-      redirect_to notice_shop_review_path(@shop, @review)
+      @comment = @review.comments
+      render 'notice'
     else
       flash.now[:alert] = 'レビューの保存に失敗しました。入力内容を確認してください。'
       render :new
     end
   end
-
-  def notice
-    @review = @shop.reviews.find(params[:id])
-  end
-
 
   private
 

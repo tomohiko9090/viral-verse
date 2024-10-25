@@ -1,11 +1,16 @@
 <h1><%= @shop.name %></h1>
+<div>
+    <p><%= link_to 'google口コミページ', @shop.url, target: "_blank" %></p>
+    <p><%= link_to '投稿されたレビュー一覧', shop_reviews_path(@shop) %></p>
+    <p><%= link_to '投稿フォーム', new_shop_review_path(@shop) %></p>
+    <p><%= image_tag @shop.qr_code if @shop.qr_code.present? %></p>
+    <p>投稿フォーム QR</p>
+</div>
 
-<p><strong>口コミURL:</strong> <%= link_to @shop.url, @shop.url, target: "_blank" %></p>
+<div>
+    <% if current_user.admin? %>
+        <p><%= link_to '店舗一覧', shops_path %></p>
+    <% end %>
 
-<h2>レビュー QR</h2>
-<%= link_to 'レビューリンク', new_shop_review_path(@shop) %>
-<br>
-<%= image_tag @shop.qr_code if @shop.qr_code.present? %>
-
-<%= link_to '店舗一覧', shops_path %> |
-<%= link_to '編集', edit_shop_path(@shop) %>
+    <p><%= link_to '編集', edit_shop_path(@shop) %></p>
+</div>

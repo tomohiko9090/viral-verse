@@ -10,20 +10,15 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :url %>
-    <%= form.text_field :url %>
-  </div>
-
-  <div>
-    <%= form.label :industry_id %>
-    <%# <%= form.collection_select :industry_id, Industry.all, :id, :name, prompt: 'Select an industry' %>
-  </div>
-
-  <%= form.submit %>
+  <form>
+    <div class="mb-3">
+      <%= form.label '店舗名' %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label 'google口コミリンク' %>
+      <%= form.text_field :url, class: "form-control"%>
+    </div>
+    <%= form.submit %>
+    </form>
 <% end %>

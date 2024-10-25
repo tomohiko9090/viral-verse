@@ -1,20 +1,34 @@
-<h1>Reviews for <%= @shop.name %></h1>
+<h1><%= @shop.name %>レビュー一覧</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
-      <th>星の数5個中</th>
+      <th>評価</th>
       <th>コメント</th>
     </tr>
   </thead>
   <tbody>
     <% @reviews.each do |review| %>
       <tr>
-        <td><%= review.score %></td>
+        <td>
+          <% if review.score == 1 %>
+            ★
+          <% elsif review.score == 2 %>
+            ★★
+          <% elsif review.score == 3 %>
+            ★★★
+          <% elsif review.score == 4 %>
+            ★★★★
+          <% elsif review.score == 5 %>
+            ★★★★★
+          <% else %>
+            ""
+          <% end %>
+        </td>
         <td><%= review.comments %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'Back to Shop', shop_path(@shop) %>
+<%= link_to '店舗情報に戻る', shop_path(@shop) %>

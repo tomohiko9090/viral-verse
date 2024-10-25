@@ -1,25 +1,23 @@
-<h1>Shops</h1>
+<h1>店舗一覧</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Industry</th>
-      <th>Actions</th>
+      <th>店舗名</th>
+      <th>作成日</th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <% @shops.each do |shop| %>
       <tr>
-        <td><%= shop.name %></td>
-        <%# <td><%= shop.industry.name %>
-        <td>
-          <%= link_to 'View', shop %>
-          <%= link_to 'Edit', edit_shop_path(shop) %>
-        </td>
+        <td><%= link_to shop.name, shop_path(shop), class: "shop-name-link" %></td>
+        <td><%= shop.created_at %></td>
+        <td><%= link_to '編集', edit_shop_path(shop) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'New Shop', new_shop_path %>
+<%= link_to '店舗作成', new_shop_path %>

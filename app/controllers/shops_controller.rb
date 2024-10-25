@@ -37,7 +37,7 @@ class ShopsController < ApplicationController
 
   def destroy
     @shop.destroy
-    redirect_to shops_url, notice: 'Shop was successfully destroyed.'
+    redirect_to shops_url, notice: '顧客情報を削除しました。'
   end
 
   private
