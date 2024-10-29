@@ -26,6 +26,7 @@ https://drawsql.app/teams/--109/diagrams/kuchikomi-elevator-2
 - 定数
  
 # AWS アーキテクチャ提案（コスト順）
+1ヶ月、1日300リクエストの場合を想定
 
 ## 1. 最小コスト構成
 Route 53 → EC2 (t3.micro) [スポットインスタンス] → MySQL(EC2内) → S3
