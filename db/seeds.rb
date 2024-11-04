@@ -39,4 +39,39 @@ created_shops.each_with_index do |shop, index|
   ).find_or_create_by!(email: "owner#{index + 1}@example.com")
 end
 
-puts "#{Shop.count} shops と #{User.count} users を作成しました。"
+# レビューデータの生成
+puts "レビューデータを生成します..."
+
+# サンプルのコメント配列
+comments = [
+  "とても美味しかったです！",
+  "また来たいです",
+  "素晴らしい接客でした",
+  "おすすめです",
+  "期待以上でした",
+  "満足しています",
+  "良い体験でした"
+]
+
+# 過去6ヶ月分のレビューを生成
+created_shops.each do |shop|
+  6.downto(0) do |months_ago|
+    # 各月のレビュー数をランダムに設定（5〜15件）
+    review_count = rand(5..15)
+
+    review_count.times do
+      # その月のランダムな日時を生成
+      date = months_ago.months.ago.beginning_of_month + rand(0..27).days + rand(10..20).hours
+
+      Review.create!(
+        shop: shop,
+        score: rand(3..5),  # 3〜5の評価をランダムに設定
+        comments: comments.sample,  # コメントをランダムに選択
+        created_at: date,
+        updated_at: date
+      )
+    end
+  end
+end
+
+puts "#{Shop.count} shops と #{User.count} users と #{Review.count} reviews を作成しました。"
