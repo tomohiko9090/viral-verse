@@ -7,9 +7,11 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       if user.owner?
-        redirect_to shop_path(user.shop_id), notice: 'ログインしました'
+        flash[:success] = 'ログインしました'
+        redirect_to shop_path(user.shop_id)
       else
-        redirect_to root_path, notice: 'ログインしました'
+        flash[:success] = 'ログインしました'
+        redirect_to root_path
       end
     else
       flash.now[:alert] = 'メールアドレスまたはパスワードが無効です'
@@ -19,6 +21,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path, notice: 'ログアウトしました'
+    flash[:success] = 'ログアウトしました'
+    redirect_to root_path
   end
 end

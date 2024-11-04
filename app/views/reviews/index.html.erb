@@ -1,4 +1,4 @@
-<h2><%= @shop.name %>レビュー一覧</h1>
+<h2><%= @shop.name %>レビュー</h1>
 
 <div class="mt-1">
   <small class="text-muted">
@@ -93,7 +93,7 @@
       <tr>
         <td><span class="review-stars"><%= "★" * review.score %><span class="text-muted"><%= "★" * (5 - review.score) %></span></span></td>
         <td><%= review.comments %></td>
-        <td><%= review.created_at.strftime('%Y/%m/%d %H:%M') %></td>
+        <td><%= review.created_at.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H:%M') %></td>
       </tr>
     <% end %>
   </tbody>
@@ -109,15 +109,6 @@
 </div>
 
 
-葛
-星の色をもっと灰色にして！
-
-
-はい、選択されていない星の色をより薄い灰色に変更します：
-
-erb
-
-Copy
 <style>
 /* 評価入力用の星のスタイル（既存のまま） */
 .star {

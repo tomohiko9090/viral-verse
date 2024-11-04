@@ -1,60 +1,94 @@
-<%# app/views/reviews/new.html.erb %>
-<div class="fadeIn">
-  <h2><%= @shop.name %>へのご来店ありがとうございます。</h2>
-  <p>友達におすすめしたいなと感じたこと、もっとよくなりそうだと感じたことなど、率直なご感想お待ちしております。</p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <%# ヘッダー部分 %>
+          <div class="text-center mb-4">
+            <h2 class="h3 mb-3"><%= @shop.name %></h2>
+            <p class="text-muted">
+              ご来店ありがとうございます。<br>
+              お客様の率直なご感想をお聞かせください。
+            </p>
+          </div>
 
-  <%= form_with(model: [@shop, @review], local: true, data: { turbo: false }) do |form| %>
-    <% if @review.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
-        <ul>
-          <% @review.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
+          <%# エラーメッセージ %>
+          <% if @review.errors.any? %>
+            <div class="alert alert-danger" role="alert">
+              <h5 class="alert-heading mb-2">
+                <%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:
+              </h5>
+              <ul class="mb-0">
+                <% @review.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
           <% end %>
-        </ul>
-      </div>
-    <% end %>
 
-    <div class="mb-3">
-      <%= form.label :score, '評価' %>
-      <div data-controller="star-rating">
-        <%= form.hidden_field :score, 
-            data: { star_rating_target: "input" },
-            required: true %>
-        <div class="star-rating" role="group" aria-label="評価">
-          <% 5.times do |i| %>
-            <span
-              class="star empty"
-              data-star-rating-target="star"
-              data-value="<%= i + 1 %>"
-              data-action="click->star-rating#setValue mouseenter->star-rating#preview mouseleave->star-rating#clearPreview"
-              role="button"
-              tabindex="0">
-              ★
-            </span>
+          <%= form_with(model: [@shop, @review], local: true, data: { turbo: false }) do |form| %>
+            <%# 評価 %>
+            <div class="mb-4">
+              <label class="form-label d-block">
+                評価
+                <span class="text-danger">*</span>
+              </label>
+              <div data-controller="star-rating" class="text-center">
+                <%= form.hidden_field :score, 
+                    data: { star_rating_target: "input" },
+                    required: true %>
+                <div class="star-rating" role="group" aria-label="評価">
+                  <% 5.times do |i| %>
+                    <span
+                      class="star empty"
+                      data-star-rating-target="star"
+                      data-value="<%= i + 1 %>"
+                      data-action="click->star-rating#setValue mouseenter->star-rating#preview mouseleave->star-rating#clearPreview"
+                      role="button"
+                      tabindex="0">
+                      ★
+                    </span>
+                  <% end %>
+                </div>
+                <small class="text-muted d-block mt-2">星をクリックして評価してください</small>
+              </div>
+            </div>
+
+            <%# コメント %>
+            <div class="mb-4">
+              <label class="form-label">
+                コメント
+                <span class="text-danger">*</span>
+              </label>
+              <%= form.text_area :comments, 
+                  class: "form-control",
+                  rows: 5,
+                  required: true,
+                  placeholder: "お店の良かった点、改善点など、率直なご意見をお聞かせください。" %>
+              <div class="form-text">例: 店長さんの笑顔が素敵で、とても心地よく過ごせました。</div>
+            </div>
+
+            <%# 送信ボタン %>
+            <div class="text-center mt-4">
+              <%= form.submit 'レビューを投稿', 
+                  class: "btn btn-primary btn-lg px-5",
+                  data: { disable_with: '送信中...' } %>
+            </div>
           <% end %>
         </div>
       </div>
     </div>
-
-    <div class="mb-3">
-      <%= form.label :comments, 'コメント' %>
-      <%= form.text_area :comments, required: true, class: "form-control", 
-          placeholder: "ex.店長さんの笑顔が最高だったので、また行きたいと思いました。"%>
-    </div>
-    
-    <%= form.submit 'レビューを投稿', class: "btn btn-outline-success" %>
-  <% end %>
+  </div>
 </div>
-
 
 <style>
 .star {
-  font-size: 36px;
+  font-size: 40px;
   color: #D1D5DB;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  display: inline-block;  /* これを追加 */
+  transition: all 0.2s ease;
+  display: inline-block;
+  user-select: none;
 }
 
 .star:hover {
@@ -62,16 +96,15 @@
 }
 
 .star.filled {
-  color: #FFD700 !important;
+  color: #FFC107 !important;
+  text-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
 }
 
 .star.preview {
-  color: #FFD700 !important;
+  color: #FFC107 !important;
+  text-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
 }
 
-/* 星の間隔を少し広げる */
 .star-rating {
   display: inline-flex;
-  gap: 8px;  /* 星同士の間隔 */
-}
-</style>
+  gap: 12

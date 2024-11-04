@@ -20,21 +20,18 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless logged_in?
-      flash[:alert] = "ログインしてください"
       redirect_to login_path
     end
   end
 
   def require_admin
     unless current_user&.admin?
-      flash[:alert] = "権限がありません"
       redirect_to root_path
     end
   end
 
   def require_owner
     unless current_user&.owner?
-      flash[:alert] = "権限がありません"
       redirect_to root_path
     end
   end

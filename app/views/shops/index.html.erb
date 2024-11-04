@@ -1,23 +1,50 @@
-<h1>店舗一覧</h1>
+<div class="container-fluid">
+ <div class="d-flex justify-content-between align-items-center mb-4">
+   <h1>店舗一覧</h1>
+   <%= link_to new_shop_path, class: "btn btn-primary" do %>
+     <i class="bi bi-plus-circle"></i> 新規店舗作成
+   <% end %>
+ </div>
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>店舗名</th>
-      <th>作成日</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @shops.each do |shop| %>
-      <tr>
-        <td><%= link_to shop.name, shop_path(shop), class: "shop-name-link" %></td>
-        <td><%= shop.created_at %></td>
-        <td><%= link_to '編集', edit_shop_path(shop) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to '店舗作成', new_shop_path %>
+ <div class="card">
+   <div class="card-body">
+     <div class="table-responsive">
+       <table class="table table-hover align-middle">
+         <thead class="table-light">
+           <tr>
+             <th scope="col">店舗名</th>
+             <th scope="col">作成日時</th>
+             <th scope="col">操作</th>
+           </tr>
+         </thead>
+         <tbody>
+           <% @shops.each do |shop| %>
+             <tr>
+               <td>
+                 <%= link_to shop_path(shop), class: "text-decoration-none" do %>
+                   <%= shop.name %>
+                 <% end %>
+               </td>
+               <td>
+                 <small class="text-muted">
+                   <%= shop.created_at.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H:%M') %>
+                 </small>
+               </td>
+               <td>
+                 <div class="btn-group" role="group">
+                   <%= link_to shop_path(shop), class: "btn btn-outline-primary btn-sm" do %>
+                     <i class="bi bi-eye"></i> 詳細
+                   <% end %>
+                   <%= link_to edit_shop_path(shop), class: "btn btn-outline-secondary btn-sm" do %>
+                     <i class="bi bi-pencil"></i> 編集
+                   <% end %>
+                 </div>
+               </td>
+             </tr>
+           <% end %>
+         </tbody>
+       </table>
+     </div>
+   </div>
+ </div>
+</div>

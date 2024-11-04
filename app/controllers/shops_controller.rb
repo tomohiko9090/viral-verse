@@ -1,5 +1,5 @@
 class ShopsController < ApplicationController
-  before_action :require_login # ログインしないとすべてアクセスできない
+  before_action :require_login # ログインしないと店舗のドメインには全てアクセスさせない
   before_action :require_admin, only: [:index, :new, :create, :destroy] # 一覧、新規作成、削除ができるのは管理者だけ
   before_action :set_shop, only: [:show, :edit, :update, :destroy]
 
@@ -8,6 +8,8 @@ class ShopsController < ApplicationController
   end
 
   def show
+    @users = @shop.users
+    @new_user = User.new(shop_id: @shop.id)
   end
 
   def new
@@ -21,23 +23,28 @@ class ShopsController < ApplicationController
     @shop = Shop.new(shop_params)
 
     if @shop.save
-      redirect_to @shop, notice: 'Shop was successfully created. QR code has been generated.'
+      flash[:success] = "「#{@shop.name}」が登録されました"
+      redirect_to shops_path
     else
+      flash[:danger] = '新規店舗の登録に失敗しました'
       render :new
     end
   end
 
   def update
     if @shop.update(shop_params)
-      redirect_to @shop, notice: 'Shop was successfully updated.'
+      flash[:success] = '更新しました'
+      redirect_to @shop
     else
+      flash[:danger] = '更新に失敗しました'
       render :edit
     end
   end
 
   def destroy
     @shop.destroy
-    redirect_to shops_url, notice: '顧客情報を削除しました。'
+    flash[:success] = '店舗を削除しました'
+    redirect_to shops_url
   end
 
   private

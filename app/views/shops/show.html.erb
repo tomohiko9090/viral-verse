@@ -1,16 +1,85 @@
-<h1><%= @shop.name %></h1>
-<div>
-    <p><%= link_to 'google口コミページ', @shop.url, target: "_blank" %></p>
-    <p><%= link_to '投稿されたレビュー一覧', shop_reviews_path(@shop) %></p>
-    <p><%= link_to '投稿フォーム', new_shop_review_path(@shop) %></p>
-    <p><%= image_tag @shop.qr_code if @shop.qr_code.present? %></p>
-    <p>投稿フォーム QR</p>
-</div>
+<div class="container-fluid">
+  <h2 class="mb-4"><%= @shop.name %></h2>
 
-<div>
-    <% if current_user.admin? %>
-        <p><%= link_to '店舗一覧', shops_path %></p>
-    <% end %>
+  <%# お店の管理セクション %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0">お店の管理</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <%= link_to 'google口コミページ', @shop.url, target: "_blank", class: "text-decoration-none" %>
+        </li>
+        <li class="list-group-item">
+          <%= link_to 'お店修正ページ', edit_shop_path(@shop), class: "text-decoration-none" %>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-    <p><%= link_to '編集', edit_shop_path(@shop) %></p>
+  <%# レビュー管理セクション %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0">レビュー管理</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <%= link_to '投稿されたレビューの一覧', shop_reviews_path(@shop), class: "text-decoration-none" %>
+        </li>
+        <li class="list-group-item">
+          <%= link_to '投稿フォーム', new_shop_review_path(@shop), class: "text-decoration-none" %>
+        </li>
+        <% if @shop.qr_code.present? %>
+          <li class="list-group-item">
+            <%= image_tag @shop.qr_code, class: "img-fluid" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <%# ユーザー管理セクション（管理者のみ） %>
+  <% if current_user.admin? %>
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">ユーザー管理</h5>
+        <%= link_to '新規ユーザー作成', new_shop_user_path(@shop), class: "btn btn-primary btn-sm" %>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>名前</th>
+                <th>メール</th>
+                <th>言語</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @users.each do |user| %>
+                <tr>
+                  <td><%= user.name %></td>
+                  <td><%= user.email %></td>
+                  <td><%= user.language.name %></td>
+                  <td>
+                    <%= link_to '編集', edit_shop_user_path(@shop, user), class: "btn btn-outline-primary btn-sm" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%# ナビゲーションボタン %>
+  <% if current_user.admin? %>
+    <div class="mt-3">
+      <%= link_to '店舗一覧へ戻る', shops_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
 </div>

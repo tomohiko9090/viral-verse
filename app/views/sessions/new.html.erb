@@ -1,17 +1,78 @@
-<h1>ログイン</h1>
+<div class="container">
+ <div class="row justify-content-center">
+   <div class="col-md-6 col-lg-5">
+     <div class="card shadow-sm border-0 mt-5">
+       <div class="card-body p-4">
+         <%# ヘッダー部分 %>
+         <div class="text-center mb-4">
+           <i class="bi bi-buildings text-primary" style="font-size: 2.5rem;"></i>
+           <h1 class="h3 mt-3 mb-3">ログイン</h1>
+           <p class="text-muted">口コミエレベーターへようこそ</p>
+         </div>
 
-<%= form_with(url: login_path, local: true) do |f| %>
-  <div class="mb-3">
-    <%= f.label :email %>
-    <%= f.email_field :email, class: "form-control" %>
-  </div>
+         <%= form_with(url: login_path, local: true) do |f| %>
+           <%# メールアドレス入力 %>
+           <div class="form-floating mb-3">
+             <%= f.email_field :email, 
+                 class: "form-control", 
+                 placeholder: "name@example.com",
+                 required: true %>
+             <%= f.label :email, 'メールアドレス', class: "text-muted" %>
+           </div>
 
-  <div class="mb-3">
-    <%= f.label :password %>
-    <%= f.password_field :password, class: "form-control" %>
-  </div>
-  
-  <div class="mb-3">
-    <%= f.submit 'ログイン', class: "btn btn-outline-success" %>
-  </div>
-<% end %>
+           <%# パスワード入力 %>
+           <div class="form-floating mb-4">
+             <%= f.password_field :password, 
+                 class: "form-control", 
+                 placeholder: "Password",
+                 required: true %>
+             <%= f.label :password, 'パスワード', class: "text-muted" %>
+           </div>
+
+           <%# ログインボタン %>
+           <div class="d-grid gap-2">
+             <%= f.submit 'ログイン', 
+                 class: "btn btn-primary btn-lg",
+                 data: { disable_with: 'ログイン中...' } %>
+           </div>
+         <% end %>
+       </div>
+     </div>
+
+     <%# フッター部分（必要に応じて） %>
+     <div class="text-center mt-4">
+       <small class="text-muted">
+         お困りの方は管理者にお問い合わせください
+       </small>
+     </div>
+   </div>
+ </div>
+</div>
+
+<style>
+.card {
+ border-radius: 10px;
+}
+
+.form-control:focus {
+ border-color: #86b7fe;
+ box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+.btn-primary {
+ transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+ transform: translateY(-1px);
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 576px) {
+ .card {
+   border-radius: 0;
+   box-shadow: none;
+   background: transparent;
+ }
+}
+</style>
