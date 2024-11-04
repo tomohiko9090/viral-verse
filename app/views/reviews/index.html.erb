@@ -91,7 +91,7 @@
   <tbody>
     <% @paginated_reviews.each do |review| %>
       <tr>
-        <td><%= "★" * review.score %></td>
+        <td><span class="review-stars"><%= "★" * review.score %><span class="text-muted"><%= "★" * (5 - review.score) %></span></span></td>
         <td><%= review.comments %></td>
         <td><%= review.created_at.strftime('%Y/%m/%d %H:%M') %></td>
       </tr>
@@ -107,3 +107,53 @@
 <div class="mt-4">
   <%= link_to '店舗情報に戻る', shop_path(@shop), class: 'btn btn-secondary' %>
 </div>
+
+
+葛
+星の色をもっと灰色にして！
+
+
+はい、選択されていない星の色をより薄い灰色に変更します：
+
+erb
+
+Copy
+<style>
+/* 評価入力用の星のスタイル（既存のまま） */
+.star {
+  font-size: 36px;
+  color: #D1D5DB;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star.filled {
+  color: #FFD700 !important;
+}
+
+.star.preview {
+  color: #FFD700 !important;
+}
+
+.star-rating {
+  display: inline-flex;
+  gap: 8px;
+}
+
+/* レビュー一覧用の星のスタイル */
+.review-stars {
+  color: #FFD700;
+  font-size: 17px;
+  letter-spacing: 2px;
+}
+
+/* 選択されていない星のスタイル - より薄いグレーに */
+.review-stars .text-muted {
+  color: #E5E7EB !important;  /* さらに薄い灰色に変更 */
+}
+</style>
