@@ -1,5 +1,5 @@
+<%# app/views/reviews/new.html.erb %>
 <div class="fadeIn">
-
   <h2><%= @shop.name %>へのご来店ありがとうございます。</h2>
   <p>友達におすすめしたいなと感じたこと、もっとよくなりそうだと感じたことなど、率直なご感想お待ちしております。</p>
 
@@ -15,17 +15,63 @@
       </div>
     <% end %>
 
-    <form>
-      <div class="mb-3">
-        <%= form.label :score, '評価' %>
-        <%= form.number_field :score, in: 1..5, required: true, class: "form-control" %>
+    <div class="mb-3">
+      <%= form.label :score, '評価' %>
+      <div data-controller="star-rating">
+        <%= form.hidden_field :score, 
+            data: { star_rating_target: "input" },
+            required: true %>
+        <div class="star-rating" role="group" aria-label="評価">
+          <% 5.times do |i| %>
+            <span
+              class="star empty"
+              data-star-rating-target="star"
+              data-value="<%= i + 1 %>"
+              data-action="click->star-rating#setValue mouseenter->star-rating#preview mouseleave->star-rating#clearPreview"
+              role="button"
+              tabindex="0">
+              ★
+            </span>
+          <% end %>
+        </div>
       </div>
-      <div class="mb-3">
-        <%= form.label :comments, 'コメント' %>
-        <%= form.text_area :comments, required: true, class: "form-control", placeholder: "ex.店長さんの笑顔が最高だったので、また行きたいと思いました。"%>
-      </div>
-      <%= form.submit 'レビューを投稿', class: "btn btn-outline-success" %>
-    </form>
-  <% end %>
+    </div>
 
+    <div class="mb-3">
+      <%= form.label :comments, 'コメント' %>
+      <%= form.text_area :comments, required: true, class: "form-control", 
+          placeholder: "ex.店長さんの笑顔が最高だったので、また行きたいと思いました。"%>
+    </div>
+    
+    <%= form.submit 'レビューを投稿', class: "btn btn-outline-success" %>
+  <% end %>
 </div>
+
+
+<style>
+.star {
+  font-size: 36px;
+  color: #D1D5DB;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: inline-block;  /* これを追加 */
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star.filled {
+  color: #FFD700 !important;
+}
+
+.star.preview {
+  color: #FFD700 !important;
+}
+
+/* 星の間隔を少し広げる */
+.star-rating {
+  display: inline-flex;
+  gap: 8px;  /* 星同士の間隔 */
+}
+</style>
