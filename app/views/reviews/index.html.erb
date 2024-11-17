@@ -1,81 +1,127 @@
-<h2><%= @shop.name %>レビュー</h1>
+<% # app/views/reviews/index.html.erb %>
+
+<h2><%= @shop.name %>レビュー</h2>
 
 <div class="mt-1">
   <small class="text-muted">
-    <div>
-      総レビュー数: <b><%= @reviews.count %>件</b>
-    </div>
-
-    <div>
-      平均評価: <b><%= @reviews.average(:score)&.round(1) || 0 %></b>
-    </div>
+    <% if @is_searching %>
+      <div>
+        検索結果: <b><%= @reviews.count %>件</b>
+      </div>
+    <% else %>
+      <div>
+        総レビュー数: <b><%= @reviews.count %>件</b>
+      </div>
+      <div>
+        平均評価: <b><%= @reviews.average(:score)&.round(1) || 0 %></b>
+      </div>
+    <% end %>
   </small>
 </div>
 
-<div class="card">
-  <div class="card-body">
-    <div>
-      <%= line_chart(
-        @monthly_data[0][:data],
-        ytitle: "総レビュー数",
-        messages: {empty: "データがありません"},
-        thousands: ",",
-        suffix: "件",
-        min: 0,
-        colors: ["#76B852"],
-        curve: true,
-        library: {
-          scales: {
-            x: {
-              display: false  # X軸のラベルを非表示
+<%# グラフ表示（検索していない場合のみ） %>
+<% unless @is_searching %>
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <%= line_chart(
+          @monthly_data[0][:data],
+          ytitle: "総レビュー数",
+          messages: {empty: "データがありません"},
+          thousands: ",",
+          suffix: "件",
+          min: 0,
+          colors: ["#76B852"],
+          curve: true,
+          library: {
+            scales: {
+              x: {
+                display: false
+              },
+              y: {
+                beginAtZero: true
+              }
             },
-            y: {
-              beginAtZero: true
+            elements: {
+              line: {
+                tension: 0.4
+              }
+            },
+            plugins: {
+              title: {
+                display: false,
+                text: '総レビュー数推移'
+              }
+            },
+            fill: {
+              target: 'origin',
+              above: 'rgba(118, 184, 82, 0.2)'
             }
-          },
-          elements: {
-            line: {
-              tension: 0.4
-            }
-          },
-          plugins: {
-            title: {
-              display: false,
-              text: '総レビュー数推移'
-            }
-          },
-          fill: {
-            target: 'origin',
-            above: 'rgba(118, 184, 82, 0.2)'
           }
-        }
-      ) %>
-    </div>
+        ) %>
+      </div>
 
-    <div>
-      <%= column_chart(
-        @monthly_data[1][:data],
-        ytitle: "月別レビュー数",
-        messages: {empty: "データがありません"},
-        thousands: ",",
-        suffix: "件",
-        min: 0,
-        colors: ["#4BC0C0"],
-        library: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          },
-          plugins: {
-            title: {
-              display: false,
-              text: '月別レビュー数'
+      <div>
+        <%= column_chart(
+          @monthly_data[1][:data],
+          ytitle: "月別レビュー数",
+          messages: {empty: "データがありません"},
+          thousands: ",",
+          suffix: "件",
+          min: 0,
+          colors: ["#4BC0C0"],
+          library: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            },
+            plugins: {
+              title: {
+                display: false,
+                text: '月別レビュー数'
+              }
             }
           }
-        }
-      ) %>
+        ) %>
+      </div>
     </div>
+  </div>
+<% end %>
+
+<%# 検索フォーム %>
+<div class="card mt-3 mb-4">
+  <div class="card-body">
+    <%= form_with(url: shop_reviews_path(@shop), method: :get, local: true, class: 'row g-3') do |f| %>
+      <div class="col-md-4">
+        <%= f.label :score, '評価', class: 'form-label' %>
+        <%= f.select :score,
+          options_for_select(
+            [['すべて', '']] + (1..5).map { |n| ["★#{n}", n] },
+            params[:score]
+          ),
+          {},
+          class: 'form-select'
+        %>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.label :month, '月', class: 'form-label' %>
+        <%= f.select :month,
+          options_for_select(
+            [['すべて', '']] + @available_months.map { |date| [date.strftime('%Y年%m月'), date.strftime('%Y-%m-01')] },
+            params[:month]
+          ),
+          {},
+          class: 'form-select'
+        %>
+      </div>
+
+      <div class="col-md-4 d-flex align-items-end">
+        <%= f.submit '検索', class: 'btn btn-primary me-2' %>
+        <%= link_to 'リセット', shop_reviews_path(@shop), class: 'btn btn-secondary' %>
+      </div>
+    <% end %>
   </div>
 </div>
 
@@ -91,7 +137,10 @@
   <tbody>
     <% @paginated_reviews.each do |review| %>
       <tr>
-        <td><span class="review-stars"><%= "★" * review.score %><span class="text-muted"><%= "★" * (5 - review.score) %></span></span></td>
+        <td>
+          <span class="review-stars"><%= "★" * review.score %></span>
+          <span class="review-score">(<%= review.score %>)</span>
+        </td>
         <td><%= review.comments %></td>
         <td><%= review.created_at.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H:%M') %></td>
       </tr>
@@ -107,44 +156,3 @@
 <div class="mt-4">
   <%= link_to '店舗情報に戻る', shop_path(@shop), class: 'btn btn-secondary' %>
 </div>
-
-
-<style>
-/* 評価入力用の星のスタイル（既存のまま） */
-.star {
-  font-size: 36px;
-  color: #D1D5DB;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  display: inline-block;
-}
-
-.star:hover {
-  transform: scale(1.2);
-}
-
-.star.filled {
-  color: #FFD700 !important;
-}
-
-.star.preview {
-  color: #FFD700 !important;
-}
-
-.star-rating {
-  display: inline-flex;
-  gap: 8px;
-}
-
-/* レビュー一覧用の星のスタイル */
-.review-stars {
-  color: #FFD700;
-  font-size: 17px;
-  letter-spacing: 2px;
-}
-
-/* 選択されていない星のスタイル - より薄いグレーに */
-.review-stars .text-muted {
-  color: #E5E7EB !important;  /* さらに薄い灰色に変更 */
-}
-</style>

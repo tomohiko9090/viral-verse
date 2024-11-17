@@ -6,31 +6,56 @@ class ReviewsController < ApplicationController
   def index
     @shop = Shop.find(params[:shop_id])
     @reviews = @shop.reviews.order(created_at: :desc)
-    @paginated_reviews = @reviews.page(params[:page]).per(5)
 
-    # 月別データを取得
-    monthly_counts = @reviews
-      .group_by { |review| review.created_at.beginning_of_month }
-      .transform_keys { |date| date.strftime('%Y年%m月') }
-      .transform_values(&:count)
-      .sort.to_h
+    # 検索条件の有無を確認
+    @is_searching = params[:score].present? || params[:month].present?
 
-    # 累積データを計算
-    cumulative_counts = monthly_counts
-      .each_with_object({}) do |(date, count), acc|
-        acc[date] = (acc.empty? ? count : acc.values.last + count)
-      end
+    # 検索条件の適用
+    @reviews = @reviews.where(score: params[:score]) if params[:score].present?
 
-    @monthly_data = [
-      {
-        name: "累積レビュー数",
-        data: cumulative_counts
-      },
-      {
-        name: "月別レビュー数",
-        data: monthly_counts
-      }
-    ]
+    if params[:month].present?
+      selected_date = Date.parse(params[:month])
+      @reviews = @reviews.where(
+        created_at: selected_date.beginning_of_month..selected_date.end_of_month
+      )
+    end
+
+    # 検索時は10件、通常時は5件表示
+    per_page = @is_searching ? 10 : 5
+    @paginated_reviews = @reviews.page(params[:page]).per(per_page)
+
+    # 検索していない場合のみグラフデータを準備
+    unless @is_searching
+      # 月別データの取得
+      monthly_counts = @reviews
+        .group_by { |review| review.created_at.beginning_of_month }
+        .transform_keys { |date| date.strftime('%Y年%m月') }
+        .transform_values(&:count)
+        .sort.to_h
+
+      # 累積データの計算
+      cumulative_counts = monthly_counts
+        .each_with_object({}) do |(date, count), acc|
+          acc[date] = (acc.empty? ? count : acc.values.last + count)
+        end
+
+      @monthly_data = [
+        {
+          name: "累積レビュー数",
+          data: cumulative_counts
+        },
+        {
+          name: "月別レビュー数",
+          data: monthly_counts
+        }
+      ]
+    end
+
+    # 検索用の月の選択肢を準備
+    @available_months = @shop.reviews
+      .select("DISTINCT DATE_FORMAT(created_at, '%Y-%m-01') as month_date")
+      .order('month_date DESC')
+      .map { |r| Date.parse(r.month_date) }
   end
 
   def new
