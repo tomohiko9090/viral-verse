@@ -12,6 +12,22 @@
 # DB
 https://drawsql.app/teams/--109/diagrams/kuchikomi-elevator-2
 
+# アンケートのフローチャート
+```mermaid
+flowchart TD
+    qr(QRコード表示) --> |fa:fa-user スマホで読みとる|review[評価ページに遷移]
+    review --> |fa:fa-user 回答する|branch{レビューを投稿ボタンをクリック後、★の数で分岐}
+
+    branch -->|1~3個の場合| survey1[改善点についてのアンケート]
+    branch -->|4,5個の場合| copy[レビューありがとうございます!でコメントをコピー]
+
+    survey1 --> |fa:fa-user 回答する|survey2[サービス改善のご提案についてのアンケート]
+    survey2 -->|fa:fa-user 回答する|thanks[フィードバックありがとうございました]
+    
+    copy --> Google
+    thanks -->Google(Google口コミ画面に遷移)
+```
+
 # 設計方針
 - enum
   - 権限
