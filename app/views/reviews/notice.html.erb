@@ -11,7 +11,9 @@
            <h2 class="h3 mb-3">フィードバックありがとうございました</h2>
            <p class="text-muted">
              いただいたご意見を真摯に受け止め、<br>
-             サービスの改善に活かしてまいります。
+             サービスの改善に活かしてまいります。<br><br>
+
+             よろしければ、Googleマップの口コミにも評価お願いします。
            </p>
 
          <% else %>
@@ -21,8 +23,8 @@
            </div>
            <h2 class="h3 mb-3">レビューありがとうございます!</h2>
            <p class="text-muted mb-4">
-             ご満足いただけて大変嬉しく思います。<br>
-             よろしければ、Googleマップの口コミにも評価をお願いできませんでしょうか？
+             ご満足いただけて嬉しいです!<br>
+             よろしければ、Googleマップの口コミにも評価お願いします。
            </p>
 
            <%# コメントコピー機能 %>
@@ -33,7 +35,7 @@
                      rows: 3, 
                      class: 'form-control mb-2',
                      placeholder: 'こちらのコメントをGoogleの口コミにコピー＆ペーストしていただけます' %>
-                 
+
                  <%= button_tag type: 'button', 
                      class: 'btn btn-secondary',
                      onclick: 'copyToClipboard()',
@@ -47,15 +49,15 @@
                </div>
              </div>
            </div>
-
-           <%# Google口コミへのリンク %>
-           <%= button_to @shop.url, 
-               method: :get,
-               form: { target: '_blank' },
-               class: "btn btn-primary btn-lg" do %>
-             <i class="bi bi-google me-2"></i>Google口コミを書く
-           <% end %>
          <% end %>
+
+        <%# Google口コミへのリンク %>
+        <%= button_to @shop.url, 
+            method: :get,
+            form: { target: '_blank' },
+            class: "btn btn-primary btn-lg" do %>
+          <i class="bi bi-google me-2"></i>Google口コミを書く
+        <% end %>         
        </div>
      </div>
    </div>
