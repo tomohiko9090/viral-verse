@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     resources :reviews, only: [:index, :new, :create] do
       member do
         get 'notice'
+        get 'survey1'
+        get 'survey2'
+        post 'submit_survey1'
+        post 'submit_survey2'
       end
     end
   end

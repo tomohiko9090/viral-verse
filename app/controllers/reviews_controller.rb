@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :require_login, only: [:index]
   before_action :set_shop
-  before_action :set_review, only: [:notice]
+  before_action :set_review, only: [:notice, :survey1, :survey2, :submit_survey1, :submit_survey2]
 
   def index
     @shop = Shop.find(params[:shop_id])
@@ -41,10 +41,49 @@ class ReviewsController < ApplicationController
     @review = @shop.reviews.new(review_params)
     if @review.save
       @comment = @review.comments
-      render 'notice'
+      if @review.score.between?(1, 3)
+        # 評価が1-3の場合はアンケートへ
+        redirect_to survey1_shop_review_path(@shop, @review)
+      else
+        # 評価が4-5の場合は通常の完了画面へ
+        render 'notice'
+      end
     else
       flash.now[:alert] = 'レビューの保存に失敗しました。入力内容を確認してください。'
       render :new
+    end
+  end
+
+  def survey1
+    render :survey1
+  end
+
+  def survey2
+    # 前のページ（survey1）からの遷移でない場合はsurvey1にリダイレクト
+    if session[:feedback1].blank?
+      redirect_to survey1_shop_review_path(@shop, @review)
+    else
+      render :survey2
+    end
+  end
+
+  def submit_survey1
+    session[:feedback1] = params[:feedback1]
+    redirect_to survey2_shop_review_path(@shop, @review)
+  end
+
+  def submit_survey2
+    # survey1とsurvey2の回答を同時に保存
+    if @review.update(
+      feedback1: session[:feedback1],
+      feedback2: params[:review][:feedback2]
+    )
+      # セッションをクリア
+      session.delete(:feedback1)
+      redirect_to notice_shop_review_path(@shop, @review)
+    else
+      flash.now[:alert] = 'アンケートの保存に失敗しました。'
+      render :survey2
     end
   end
 
