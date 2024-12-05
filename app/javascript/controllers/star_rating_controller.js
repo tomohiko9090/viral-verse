@@ -19,6 +19,7 @@ export default class extends Controller {
     console.log(`Score set to: ${score}`) // デバッグ用
   }
 
+  // クリック時の処理
   updateStars() {
     this.starTargets.forEach((star, index) => {
       if (index < this.scoreValue) {
@@ -31,6 +32,7 @@ export default class extends Controller {
     })
   }
 
+  // ホバー時のプレビュー処理
   preview(event) {
     const score = parseInt(event.currentTarget.dataset.value)
     this.starTargets.forEach((star, index) => {
@@ -42,6 +44,7 @@ export default class extends Controller {
     })
   }
 
+  // ホバー解除時の処理
   clearPreview() {
     this.starTargets.forEach(star => {
       star.classList.remove('preview')
