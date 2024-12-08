@@ -17,7 +17,7 @@ production:
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV.fetch('DB_NAME') %>
-  username: <%= ENV.fetch('DB_USERNAME') %>
-  password: <%= ENV.fetch('DB_PASSWORD') %>
-  socket: <%= ENV.fetch('DB_SOCKET') %>
+  database: <%= ENV.fetch('PROD_DB_NAME') %>
+  username: <%= ENV.fetch('PROD_DB_USERNAME') %>
+  password: <%= ENV.fetch('PROD_DB_PASSWORD') %>
+  socket: <%= ENV.fetch('PROD_DB_SOCKET') %>
