@@ -39,4 +39,4 @@ app/.DS_Store
 app/assets/.DS_Store
 
 **/.keep
-**/*.png
+**/*.png.env

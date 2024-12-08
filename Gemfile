@@ -63,6 +63,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "pry-rails"
   gem 'pry-byebug'
+  gem 'dotenv-rails'
 end
 
 group :development do
