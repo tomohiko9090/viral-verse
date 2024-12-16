@@ -42,6 +42,6 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  defined?(ActiveRecord::Base) &&
-    ActiveRecord::Base.establish_connection
+  defined?(ActiveRecord::Base) && ActiveRecord::Base.establish_connection
+  Rails.application.config.action_dispatch.use_cookies_with_metadata = false
 end
