@@ -166,3 +166,20 @@ bundle install
 bin/rails db:create
 bin/rails db:migrate
 ```
+
+
+# ログ
+## Unicornのエラーログを確認
+tail -f /var/www/kuchikomi-elevator/log/unicorn.stderr.log
+
+## Unicornの標準出力ログを確認
+tail -f /var/www/kuchikomi-elevator/log/unicorn.stdout.log
+
+## Railsのプロダクションログを確認
+tail -f /var/www/kuchikomi-elevator/log/production.log
+
+## システムログも確認
+sudo tail -f /var/log/messages
+
+## Nginxのエラーログ
+sudo tail -f /var/log/nginx/error.log

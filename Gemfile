@@ -53,6 +53,7 @@ gem 'bootstrap'
 gem 'kaminari'
 gem 'chartkick'
 gem 'groupdate'
+gem 'sassc-rails'
 
 group :production do
   gem 'unicorn'

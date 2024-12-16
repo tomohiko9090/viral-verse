@@ -50,6 +50,7 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
+  config.ssl_options = { redirect: { status: 301 } }
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
@@ -93,5 +94,18 @@ Rails.application.configure do
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  # ログの設定
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger::INFO
+  config.log_formatter = ::Logger::Formatter.new
+
+  # Active Recordのログも設定
+  config.active_record.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+
+  # クッキー関連の設定を個別に指定
+  config.action_dispatch.cookies_secure = true
+  config.action_dispatch.cookies_http_only = true
+  config.action_dispatch.cookies_same_site = :lax
+  config.action_dispatch.cookies_expire_after = 24.hours
 end
