@@ -28,15 +28,10 @@ Rails.application.configure do
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = true
-
-  # JavaScriptの圧縮を設定
-  config.assets.js_compressor = :terser
-
-  # 静的ファイルの配信を有効化
+  config.assets.js_compressor = :terser # JavaScriptの圧縮を設定
+  config.assets.css_compressor = :sass   # CSSの圧縮方法
   config.public_file_server.enabled = true
-
-  # デバッグ用に一時的に有効化
-  config.assets.debug = true
+  config.serve_static_files = true       # 静的ファイルの提供を有効化
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
