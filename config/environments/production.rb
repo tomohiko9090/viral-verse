@@ -35,6 +35,9 @@ Rails.application.configure do
   # 静的ファイルの配信を有効化
   config.public_file_server.enabled = true
 
+  # デバッグ用に一時的に有効化
+  config.assets.debug = true
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 
