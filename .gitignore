@@ -40,3 +40,7 @@ app/assets/.DS_Store
 
 **/.keep
 **/*.png.env
+
+/.env
+config/credentials.yml.enc
+

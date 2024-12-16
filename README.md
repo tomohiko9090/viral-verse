@@ -157,7 +157,7 @@ git clone [リポジトリURL]
 cd [プロジェクト名]
 
 # .env.exampleを.envにコピー
-cp .env.example .env
+cp ./.env.example ./.env
 
 # 依存関係をインストール
 bundle install
