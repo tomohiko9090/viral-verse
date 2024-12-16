@@ -57,6 +57,7 @@ gem 'sassc-rails'
 
 group :production do
   gem 'unicorn'
+  gem 'terser'
 end
 
 group :development, :test do
