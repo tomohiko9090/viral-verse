@@ -9,7 +9,6 @@ class ShopsController < ApplicationController
 
   def show
     @users = @shop.users
-    @new_user = User.new(shop_id: @shop.id)
   end
 
   def new
