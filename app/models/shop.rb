@@ -2,6 +2,13 @@ class Shop < ApplicationRecord
   has_many :users
   has_many :reviews, dependent: :destroy
 
+  scope :with_latest_reviews, -> {
+    joins(:reviews)
+    .select('shops.*, MAX(reviews.created_at) as latest_review_date')
+    .group('shops.id')
+    .order(latest_review_date: :desc)
+  }
+
   validates :name, presence: true
   validates :url, presence: true
 

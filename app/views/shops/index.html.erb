@@ -13,7 +13,7 @@
          <thead class="table-light">
            <tr>
              <th scope="col">店舗名</th>
-             <th scope="col">作成日時</th>
+             <th scope="col">最新レビュー</th>
              <th scope="col">操作</th>
            </tr>
          </thead>
@@ -27,7 +27,7 @@
                </td>
                <td>
                  <small class="text-muted">
-                   <%= shop.created_at.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H:%M') %>
+                   <%= shop.latest_review_date.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H:%M') %>
                  </small>
                </td>
                <td>
