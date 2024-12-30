@@ -183,3 +183,25 @@ sudo tail -f /var/log/messages
 
 ## Nginxのエラーログ
 sudo tail -f /var/log/nginx/error.log
+
+## フロント読み込み
+- app/javascript/application.js
+  - 起点となるファイル
+- app/javascript/controllers/index.js
+  - 読み込むファイル
+- config/importmap.rb
+  - モジュールをどこから読み込むかを定義するファイル
+  - pin "application" と書くと、app/javascript/application.jsを読み込めるようになる
+- app/javascript/controllers/application.js
+	- StimulusのApplicationインスタンスを作成・設定
+	- インスタンスを他のファイルで使えるようexport
+	- デバッグ設定なども行う
+
+
+```mermaid
+graph TD
+    A[importmap.rb] -->|1. モジュールのマッピング| B[application.js]
+    B -->|2. controllers読み込み| C[controllers/index.js]
+    C -->|3. Stimulus初期化| D[controllers/application.js]
+    D -->|4. Stimulusアプリケーション提供| C
+```
