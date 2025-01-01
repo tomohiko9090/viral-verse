@@ -1,4 +1,15 @@
-# KuchikomiElevator
+# 暫定デプロイ手順
+1. ssh -i ~/.ssh/***REMOVED*** ec2-user@***REMOVED***
+2. cd /var/www/kuchikomi-elevator
+3. git pull origin main
+4. 以下実行
+```
+RAILS_ENV=production bundle exec rails assets:clean
+RAILS_ENV=production bundle exec rails assets:clobber
+RAILS_ENV=production bundle exec rails assets:precompile
+kill -QUIT `cat tmp/pids/unicorn.pid`
+RAILS_ENV=production bundle exec unicorn_rails -c config/unicorn.rb -E production -D
+```
 
 # ユーザー権限と機能アクセス
 
