@@ -15,7 +15,9 @@
                         method: :post
                         ) do |form| %>
             <div class="mb-4">
-              <label class="form-label">このようなサービスがあったら良かったなと思うことはありますか？</label>
+              <label class="form-label">このようなサービスがあったら良かったなと思うことはありますか？
+                <span class="text-danger">*</span>
+              </label>
               <%= form.text_area :feedback2,
                   class: "form-control",
                   rows: 4,
