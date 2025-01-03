@@ -19,7 +19,7 @@ class Shop < ApplicationRecord
     # urlが変更された場合、もしくはqr_codeがnilの場合のみ実行
     return unless saved_change_to_url? || qr_code.nil?
 
-    host = Rails.env.production? ? 'kuchikomi.elevator' : 'http://127.0.0.1:3000'
+    host = Rails.env.production? ? 'https://57.182.63.187' : 'http://127.0.0.1:3000'
     review_url = Rails.application.routes.url_helpers.new_shop_review_url(self, host: host)
     qr = RQRCode::QRCode.new(review_url)
     png = qr.as_png(
