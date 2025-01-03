@@ -13,7 +13,9 @@
                         method: :post
                         ) do |form| %>
             <div class="mb-4">
-              <label class="form-label">良くなかったと感じた点はなんですか？</label>
+              <label class="form-label">良くなかったと感じた点はなんですか？
+                <span class="text-danger">*</span>
+              </label>
               <%= form.text_area :feedback1, 
                   class: "form-control",
                   value: session[:feedback1],
