@@ -27,7 +27,7 @@
                </td>
                <td>
                  <small class="text-muted">
-                   <%= shop.latest_review_date.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H:%M') %>
+                   <%= shop.latest_review_date&.in_time_zone('Tokyo')&.strftime('%Y年%m月%d日 %H:%M') || 'レビューなし' %>
                  </small>
                </td>
                <td>
