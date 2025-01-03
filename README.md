@@ -216,3 +216,28 @@ graph TD
     C -->|3. Stimulus初期化| D[controllers/application.js]
     D -->|4. Stimulusアプリケーション提供| C
 ```
+
+```
+<script type="importmap">
+にある順番で
+curl -k https://57.182.63.187/shops/1/reviews/new
+の順番で読み込まれていく
+```
+
+- JSやCSSの変更 → アセット関連コマンドとUnicornの再起動
+```
+RAILS_ENV=production bundle exec rails assets:clean    # 古いアセットを削除
+RAILS_ENV=production bundle exec rails assets:clobber  # アセットを完全に削除
+RAILS_ENV=production bundle exec rails assets:precompile # アセットを再コンパイル
+```
+- アプリケーションコードの変更 → Unicornの再起動のみ
+	- ex.mainブランチをpullした後やUnicornの設定を大きく変更した時
+```
+kill -QUIT `cat tmp/pids/unicorn.pid` && \
+RAILS_ENV=production bundle exec unicorn_rails -c config/unicron.rb -E production -D
+```
+- Nginx設定の変更 → Nginxの再起動のみ
+	- ex./etc/nginx/conf.d/rails.conf などのNginx設定ファイルを変更した時
+```
+sudo systemctl restart nginx
+```
