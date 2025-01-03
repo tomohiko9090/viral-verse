@@ -13,8 +13,12 @@ class Shop < ApplicationRecord
   validates :url, presence: true
 
   after_create :generate_qr_code
+  after_update :generate_qr_code
 
   def generate_qr_code
+    # urlが変更された場合、もしくはqr_codeがnilの場合のみ実行
+    return unless saved_change_to_url? || qr_code.nil?
+
     host = Rails.env.production? ? 'kuchikomi.elevator' : 'http://127.0.0.1:3000'
     review_url = Rails.application.routes.url_helpers.new_shop_review_url(self, host: host)
     qr = RQRCode::QRCode.new(review_url)
@@ -36,7 +40,7 @@ class Shop < ApplicationRecord
 
     File.open(file_path, 'wb') { |f| f.write(png.to_s) }
 
-    update(qr_code: "/qr_codes/#{file_name}")
+    update_column(:qr_code, "/qr_codes/#{file_name}")
   rescue => e
     Rails.logger.error "Failed to generate QR code for Shop #{id}: #{e.message}"
   end
