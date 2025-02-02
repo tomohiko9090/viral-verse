@@ -18,4 +18,7 @@ Rails.application.routes.draw do
 
   root "shops#index"
   match '*path', to: 'application#not_found', via: :all
+
+  # MEMO: 以下とGemfileのerd_mapをコメントアウトし、bundle exec rails erd_mapを実行する
+  # mount ErdMap::Engine => "erd_map"
 end
