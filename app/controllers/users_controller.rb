@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :require_login
   before_action :require_admin # ユーザーのドメインは全て管理者しかアクセスできない
   before_action :set_shop
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :destroy]
 
   def new
     @user = @shop.users.build
@@ -29,6 +29,24 @@ class UsersController < ApplicationController
       flash[:danger] = 'ユーザー情報の更新に失敗しました'
       render :edit
     end
+  end
+
+  def destroy
+    ActiveRecord::Base.transaction do
+      shop_user = @shop.shop_users.find_by!(user: @user)
+      shop_user.destroy!
+
+      # そのユーザーが他の店舗に紐付いていない場合は、ユーザーも削除
+      if @user.shop_users.count.zero?
+        @user.destroy!
+      end
+
+      flash[:success] = 'ユーザーを削除しました'
+      redirect_to shop_path(@shop)
+    end
+  rescue ActiveRecord::RecordNotFound
+    flash[:danger] = 'ユーザーが見つかりません'
+    redirect_to shop_path(@shop)
   end
 
   private

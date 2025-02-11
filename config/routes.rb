@@ -1,17 +1,26 @@
 Rails.application.routes.draw do
-  get '/login', to: 'sessions#new', as: :login
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy', as: :logout
+  # セッション関連
+  controller :sessions do
+    get '/login' => :new, as: :login
+    post '/login' => :create
+    delete '/logout' => :destroy, as: :logout
+  end
 
+  # 店舗関連
   resources :shops do
-    resources :users, only: [:new, :create, :edit, :update]
+    # ユーザー管理
+    resources :users, except: [:index, :show]
+
+    # レビュー関連
     resources :reviews, only: [:index, :new, :create] do
       member do
-        get 'notice'
-        get 'survey1'
-        get 'survey2'
-        post 'submit_survey1'
-        post 'submit_survey2'
+        scope module: :reviews do  # または namespace :reviews do
+          get :notice
+          get :survey1
+          get :survey2
+          post :submit_survey1
+          post :submit_survey2
+        end
       end
     end
   end
