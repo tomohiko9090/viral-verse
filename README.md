@@ -241,3 +241,17 @@ RAILS_ENV=production bundle exec unicorn_rails -c config/unicron.rb -E productio
 ```
 sudo systemctl restart nginx
 ```
+
+export DB_USERNAME=root
+export DB_PASSWORD=***REMOVED***
+export PROD_DB_NAME=kuchikomi_elevator_production
+export PROD_DB_USERNAME=root
+export PROD_DB_PASSWORD='***REMOVED***'
+export PROD_DB_SOCKET=/var/lib/mysql/mysql.sock
+export SECRET_KEY_BASE="***REMOVED***"
+export RAILS_ENV=production
+export BUNDLE_GEMFILE=/var/www/kuchikomi-elevator/Gemfile
+
+
+⌘ + D  ペインを横に分割する
+⌘ + Shift + D	 ペインを縦に分割する
