@@ -1,15 +1,19 @@
 class ShopsController < ApplicationController
   before_action :require_login # ログインしないと店舗のドメインには全てアクセスさせない
-  before_action :require_admin, only: [:index, :new, :create, :destroy] # 一覧、新規作成、削除ができるのは管理者だけ
+  before_action :require_admin, only: [:new, :create, :destroy] # 新規作成、削除ができるのは管理者だけ
   before_action :set_shop, only: [:show, :edit, :update, :destroy]
 
   def index
-    @shops = Shop.with_latest_reviews
+    if current_user.admin?
+      @shops = Shop.with_latest_reviews
+    else
+      @shops = current_user.shops.with_latest_reviews
+    end
   end
 
   def show
-    @users = @shop.users
-    @new_user = User.new(shop_id: @shop.id)
+    @users = @shop.users.includes(:language)
+    @new_user = User.new
   end
 
   def new

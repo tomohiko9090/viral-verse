@@ -9,14 +9,16 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = @shop.users.build(user_params)
-
-    if @user.save
-      flash[:success] = 'ユーザーを追加しました'
-      redirect_to shop_path(@shop)
-    else
-      flash[:danger] = 'ユーザーの追加に失敗しました'
-      render :new
+    @user = User.new(user_params)
+    ActiveRecord::Base.transaction do
+      if @user.save
+        @shop.shop_users.create!(user: @user)
+        flash[:success] = 'ユーザーを追加しました'
+        redirect_to shop_path(@shop)
+      else
+        flash[:danger] = 'ユーザーの追加に失敗しました'
+        render :new
+      end
     end
   end
 
