@@ -12,18 +12,23 @@
 
   <form>
     <div class="mb-3">
-      <%= form.label :name, '名前' %>
-      <%= form.text_field :name, class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
       <%= form.label :email, 'メールアドレス' %>
       <%= form.email_field :email, class: "form-control" %>
+      <% if @user.new_record? %>
+        <small class="text-muted">
+          ※ 既に他店舗で登録されているメールアドレスの場合は、メールアドレスのみご入力ください。
+        </small>
+      <% end %>
     </div>
 
     <div class="mb-3">
       <%= form.label :password, @user.new_record? ? 'パスワード' : 'パスワード（変更する場合のみ）' %>
       <%= form.password_field :password, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :name, '表示名' %>
+      <%= form.text_field :name, class: "form-control" %>
     </div>
 
     <%= form.hidden_field :role, value: 'owner' %>
