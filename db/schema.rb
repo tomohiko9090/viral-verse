@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_17_132948) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_02_025911) do
   create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", comment: "レビュー情報を管理するテーブル", force: :cascade do |t|
     t.bigint "shop_id", null: false, comment: "店舗ID（shops.id）"
     t.integer "score", null: false, comment: "評価点数（1-5）"
@@ -22,6 +22,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_17_132948) do
     t.datetime "deleted_at", comment: "論理削除日時"
     t.index ["deleted_at"], name: "index_reviews_on_deleted_at"
     t.index ["shop_id"], name: "index_reviews_on_shop_id"
+  end
+
+  create_table "shop_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "shop_id", null: false, comment: "店舗ID（shops.id）"
+    t.bigint "user_id", null: false, comment: "ユーザーID（users.id）"
+    t.datetime "deleted_at", comment: "論理削除日時"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_shop_users_on_deleted_at"
+    t.index ["shop_id", "user_id"], name: "index_shop_users_on_shop_id_and_user_id", unique: true
+    t.index ["shop_id"], name: "index_shop_users_on_shop_id"
+    t.index ["user_id"], name: "index_shop_users_on_user_id"
   end
 
   create_table "shops", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", comment: "店舗情報を管理するテーブル", force: :cascade do |t|
@@ -41,7 +53,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_17_132948) do
     t.string "password_digest", null: false, comment: "パスワードハッシュ（6文字以上）"
     t.integer "role", default: 2, null: false, comment: "ユーザー権限（1:admin管理者, 2:owner店舗オーナー）"
     t.integer "language_id", default: 1, null: false, comment: "言語ID（1:日本語）"
-    t.integer "shop_id", comment: "所属店舗ID（shops.id）"
     t.datetime "created_at", null: false, comment: "作成日時"
     t.datetime "updated_at", null: false, comment: "更新日時"
     t.datetime "deleted_at", comment: "論理削除日時"
@@ -50,4 +61,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_17_132948) do
   end
 
   add_foreign_key "reviews", "shops"
+  add_foreign_key "shop_users", "shops"
+  add_foreign_key "shop_users", "users"
 end
