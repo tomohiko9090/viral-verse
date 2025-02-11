@@ -59,7 +59,8 @@
               </tr>
             </thead>
             <tbody>
-              <% @users.each do |user| %>
+              <% @shop.shop_users.includes(:user).each do |shop_user| %>
+                <% user = shop_user.user %>
                 <tr>
                   <td><%= user.name %></td>
                   <td><%= user.email %></td>

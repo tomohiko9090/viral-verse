@@ -29,10 +29,4 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
-
-  def require_owner
-    unless current_user&.owner?
-      redirect_to root_path
-    end
-  end
 end

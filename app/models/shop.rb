@@ -1,5 +1,6 @@
 class Shop < ApplicationRecord
-  has_many :users
+  has_many :shop_users, dependent: :destroy
+  has_many :users, through: :shop_users
   has_many :reviews, dependent: :destroy
 
   scope :with_latest_reviews, -> {

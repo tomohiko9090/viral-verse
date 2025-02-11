@@ -34,17 +34,28 @@
          <div class="collapse navbar-collapse" id="navbarNav">
            <ul class="navbar-nav ms-auto align-items-center">
              <%# ユーザータイプに応じたリンク %>
-             <li class="nav-item">
-               <% if current_user.admin? %>
-                 <%= link_to root_path, class: "nav-link" do %>
-                   <i class="bi bi-house me-1"></i>ホーム（管理者）
-                 <% end %>
-               <% elsif current_user.owner? && current_user.shop_id %>
-                 <%= link_to shop_path(current_user.shop_id), class: "nav-link" do %>
-                   <i class="bi bi-shop me-1"></i>マイショップ
-                 <% end %>
-               <% end %>
-             </li>
+              <li class="nav-item">
+                <% if current_user.admin? %>
+                  <%= link_to root_path, class: "nav-link" do %>
+                    <i class="bi bi-house me-1"></i>ホーム（管理者）
+                  <% end %>
+                <% elsif current_user.owner? %>
+                  <% shops_count = current_user.shops.count %>
+                  <% if shops_count == 0 %>
+                    <span class="nav-link text-muted">
+                      <i class="bi bi-shop me-1"></i>店舗未登録
+                    </span>
+                  <% elsif shops_count == 1 %>
+                    <%= link_to shop_path(current_user.shops.first), class: "nav-link" do %>
+                      <i class="bi bi-shop me-1"></i>マイショップ
+                    <% end %>
+                  <% else %>
+                    <%= link_to shops_path, class: "nav-link" do %>
+                      <i class="bi bi-shops me-1"></i>店舗一覧
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </li>
 
              <%# ユーザー名 %>
              <li class="nav-item">
