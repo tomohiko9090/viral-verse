@@ -12,6 +12,8 @@ development:
 test:
   <<: *default
   database: kuchikomi_elevator_test
+  username: <%= ENV.fetch("DB_USERNAME") %>
+  password: <%= ENV.fetch("DB_PASSWORD") %>
 
 <% if Rails.env.production? %>
 production:
@@ -22,4 +24,4 @@ production:
   username: <%= ENV.fetch('PROD_DB_USERNAME') %>
   password: <%= ENV.fetch('PROD_DB_PASSWORD') %>
   socket: <%= ENV.fetch('PROD_DB_SOCKET') %>
-<% end %>  
+<% end %>
