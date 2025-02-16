@@ -14,20 +14,17 @@ Rails.application.routes.draw do
     # レビュー関連
     resources :reviews, only: [:index, :new, :create] do
       member do
-        scope module: :reviews do  # または namespace :reviews do
-          get :notice
-          get :survey1
-          get :survey2
-          post :submit_survey1
-          post :submit_survey2
-        end
+        get :notice
+        get :survey1
+        get :survey2
+        post :submit_survey1
+        post :submit_survey2
       end
     end
   end
 
   root "shops#index"
   match '*path', to: 'application#not_found', via: :all
-
   # MEMO: 以下とGemfileのerd_mapをコメントアウトし、bundle exec rails erd_mapを実行する
   # mount ErdMap::Engine => "erd_map"
 end
