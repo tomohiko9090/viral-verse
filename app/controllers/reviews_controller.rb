@@ -4,6 +4,8 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: [:notice, :survey1, :survey2, :submit_survey1, :submit_survey2]
 
   def index
+    redirect_shop_index unless authorized_for_shop?(@shop)
+
     @shop = Shop.find(params[:shop_id])
     @reviews = @shop.reviews.order(created_at: :desc)
 

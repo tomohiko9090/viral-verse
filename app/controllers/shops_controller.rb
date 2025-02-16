@@ -1,6 +1,6 @@
 class ShopsController < ApplicationController
   before_action :require_login # ログインしないと店舗のドメインには全てアクセスさせない
-  before_action :require_admin, only: [:new, :create, :destroy] # 新規作成、削除ができるのは管理者だけ
+  before_action :require_admin, only: [:new, :create, :update, :destroy] # 更新系できるのは管理者だけ
   before_action :set_shop, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -12,6 +12,8 @@ class ShopsController < ApplicationController
   end
 
   def show
+    redirect_shop_index unless authorized_for_shop?(@shop)
+
     @users = @shop.users.includes(:language)
     @new_user = User.new
   end
