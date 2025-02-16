@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 90">
+  <!-- 背景の円形の波紋効果 -->
+  <circle cx="45" cy="45" r="27" fill="none" stroke="#e0e0e0" stroke-width="0.75" opacity="0.5">
+    <animate attributeName="r" from="18" to="27" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" from="0.5" to="0" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- メインのロゴマーク -->
+  <g transform="translate(45,45)">
+    <!-- 中央の六角形 -->
+    <path d="M0,-18 L15,-9 L15,9 L0,18 L-15,9 L-15,-9 Z" 
+          fill="#4a90e2">
+      <animate attributeName="transform" 
+               attributeType="XML" 
+               type="rotate" 
+               from="0" 
+               to="360" 
+               dur="8s" 
+               repeatCount="indefinite"/>
+    </path>
+    
+    <!-- 接続を表す線 -->
+    <g stroke="#4a90e2" stroke-width="1.5">
+      <line x1="0" y1="-15" x2="0" y2="-22">
+        <animate attributeName="y2" values="-22;-24;-22" dur="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="12" y1="7.5" x2="19" y2="12">
+        <animate attributeName="x2" values="19;21;19" dur="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="-12" y1="7.5" x2="-19" y2="12">
+        <animate attributeName="x2" values="-19;-21;-19" dur="2s" repeatCount="indefinite"/>
+      </line>
+    </g>
+  </g>
+
+  <!-- テキスト - サイズをさらに大きく -->
+  <text x="120" y="57" 
+        font-family="Arial, sans-serif" 
+        font-weight="bold" 
+        font-size="42" 
+        fill="#2c3e50">
+    ViralVerse
+  </text>
+</svg>
