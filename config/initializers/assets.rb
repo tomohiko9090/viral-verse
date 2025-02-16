@@ -19,3 +19,5 @@ Rails.application.config.assets.precompile += %w(
   application.js
   application.css
 )
+
+Rails.application.config.assets.precompile += %w( favicon.svg favicon.ico logo.svg )
