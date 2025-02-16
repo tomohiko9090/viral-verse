@@ -15,7 +15,7 @@ Rails.application.configure do
   config.serve_static_files = true
 
   # 3.セキュリティ関連の設定
-  config.force_ssl = false
+  config.force_ssl = true
   config.ssl_options = { redirect: { status: 301 } }
   config.action_dispatch.cookies_secure = true
   config.action_dispatch.cookies_http_only = true
