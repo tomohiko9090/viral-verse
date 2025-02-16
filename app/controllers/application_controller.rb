@@ -29,4 +29,15 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
+
+  def authorized_for_shop?(shop)
+    return true if current_user&.admin?
+
+    ShopUser.exists?(shop: shop, user: current_user)
+  end
+
+  def redirect_shop_index
+    flash[:danger] = 'アクセス権限がありません'
+    redirect_to shops_path
+  end
 end
