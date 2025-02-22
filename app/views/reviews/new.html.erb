@@ -1,4 +1,11 @@
 <div class="container">
+  <%# 言語切り替えボタン %>
+  <div class="row justify-content-center mb-3">
+    <div class="col-lg-8 d-flex justify-content-end">
+      <%= render 'shared/language_switcher' %>
+    </div>
+  </div>
+
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card shadow-sm">
@@ -7,8 +14,8 @@
           <div class="text-center mb-4">
             <h2 class="h3 mb-3"><%= @shop.name %></h2>
             <p class="text-muted">
-              ご来店ありがとうございます。<br>
-              お客様の率直なご感想をお聞かせください。
+              <%= t('.thank_you') %><br>
+              <%= t('.feedback_request') %>
             </p>
           </div>
 
@@ -16,7 +23,7 @@
           <% if @review.errors.any? %>
             <div class="alert alert-danger" role="alert">
               <h5 class="alert-heading mb-2">
-                <%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:
+                <%= t('.error_count', count: @review.errors.count) %>
               </h5>
               <ul class="mb-0">
                 <% @review.errors.full_messages.each do |message| %>
@@ -27,18 +34,21 @@
           <% end %>
 
           <%= turbo_frame_tag "review_form", target: "_top" do %>
-            <%= form_with(model: [@shop, @review], local: true, data: { turbo: false }) do |form| %>
+            <%= form_with(model: [@shop, @review], 
+              url: shop_reviews_path(@shop, locale: params[:locale]),
+              local: true, 
+              data: { turbo: false }) do |form| %>
               <%# 評価 %>
               <div class="mb-4">
                 <label class="form-label d-block">
-                  評価
+                  <%= t('.rating') %>
                   <span class="text-danger">*</span>
                 </label>
                 <div data-controller="star-rating" class="text-center">
                   <%= form.hidden_field :score, 
                       data: { star_rating_target: "input" },
                       required: true %>
-                  <div class="star-rating" role="group" aria-label="評価">
+                  <div class="star-rating" role="group" aria-label="<%= t('.rating') %>">
                     <% 5.times do |i| %>
                       <span
                         class="star empty"
@@ -51,29 +61,29 @@
                       </span>
                     <% end %>
                   </div>
-                  <small class="text-muted d-block mt-2">星をクリックして評価してください</small>
+                  <small class="text-muted d-block mt-2"><%= t('.rating_instruction') %></small>
                 </div>
               </div>
 
               <%# コメント %>
               <div class="mb-4">
                 <label class="form-label">
-                  コメント
+                  <%= t('.comments') %>
                   <span class="text-danger">*</span>
                 </label>
                 <%= form.text_area :comments, 
                     class: "form-control",
                     rows: 5,
                     required: true,
-                    placeholder: "お店の良かった点、改善点など、率直なご意見をお聞かせください。" %>
-                <div class="form-text">例: 店長さんの笑顔が素敵で、とても心地よく過ごせました。</div>
+                    placeholder: t('.comments_placeholder') %>
+                <div class="form-text"><%= t('.comments_example') %></div>
               </div>
 
               <%# 送信ボタン %>
               <div class="text-center mt-4">
-                <%= form.submit 'レビューを投稿',
+                <%= form.submit t('.submit_button'),
                     class: "btn btn-primary btn-lg px-5",
-                    data: { disable_with: '送信中...' } %>
+                    data: { disable_with: t('.submitting') } %>
               </div>
             <% end %>
           <% end %>
@@ -82,6 +92,7 @@
     </div>
   </div>
 </div>
+
 
 <style>
 .star {
@@ -110,3 +121,5 @@
 .star-rating {
   display: inline-flex;
   gap: 12
+
+</style>
