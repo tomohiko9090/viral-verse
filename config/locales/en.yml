@@ -1,31 +1,45 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  reviews:
+    new:
+      thank_you: "Thank you for visiting us."
+      feedback_request: "Please share your honest feedback with us."
+      error_count: "%{count} error(s) prohibited this review from being saved:"
+      rating: "Rating"
+      rating_instruction: "Click the stars to rate"
+      comments: "Comments"
+      comments_placeholder: "Please share your thoughts about what you liked and what could be improved."
+      comments_example: "Example: The staff was very friendly and made my visit enjoyable."
+      submit_button: "Submit Review"
+      submitting: "Submitting..."
+    create:
+      save_error: "Failed to save the review. Please check your input."
+    submit_survey2:
+      survey_save_error: "Failed to save the survey."
+    survey1:
+      title: "Areas for Improvement (1/2)"
+      subtitle: "Please help us improve our service by providing more details."
+      feedback_label: "What aspects did you find unsatisfactory?"
+      feedback_placeholder: "Example: Customer service, waiting time, facility cleanliness, etc."
+      next_button: "Next"
+    survey2:
+      title: "Service Improvement Suggestions (2/2)"
+      subtitle: "One last question for your feedback."
+      feedback_label: "What services would you like to see in the future?"
+      feedback_placeholder: "Example: Reservation system, menu variety, facilities, etc."
+      submit_button: "Complete"
+    notice:
+      low_rating:
+        icon_class: "bi bi-chat-square-heart text-primary"
+        title: "Thank You for Your Feedback"
+        message: "We take your feedback seriously and will use it to improve our services."
+        google_request: "If you'd like, please also rate us on Google Maps."
+      high_rating:
+        icon_class: "bi bi-hand-thumbs-up text-warning"
+        title: "Thank You for Your Review!"
+        message: "We're glad you enjoyed your experience!"
+        google_request: "If you'd like, please also rate us on Google Maps."
+      comment_placeholder: "You can copy & paste this comment to your Google review"
+      copy_button: "Copy Comment"
+      copy_tooltip: "Click to copy to clipboard"
+      google_button: "Write a Google Review"
+      copy_success: "Comment copied"

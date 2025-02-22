@@ -1,0 +1,45 @@
+ja:
+  reviews:
+    new:
+      thank_you: "ご来店ありがとうございます。"
+      feedback_request: "お客様の率直なご感想をお聞かせください。"
+      error_count: "%{count}件のエラーが発生しました："
+      rating: "評価"
+      rating_instruction: "星をクリックして評価してください"
+      comments: "コメント"
+      comments_placeholder: "お店の良かった点、改善点など、率直なご意見をお聞かせください。"
+      comments_example: "例: 店長さんの笑顔が素敵で、とても心地よく過ごせました。"
+      submit_button: "レビューを投稿"
+      submitting: "送信中..."
+    create:
+      save_error: "レビューの保存に失敗しました。入力内容を確認してください。"
+    submit_survey2:
+      survey_save_error: "アンケートの保存に失敗しました。"
+    survey1:
+      title: "改善点について (1/2)"
+      subtitle: "サービス向上のため、もう少し詳しくお聞かせください。"
+      feedback_label: "良くなかったと感じた点はなんですか？"
+      feedback_placeholder: "例：接客の態度、待ち時間、施設の清潔さなど"
+      next_button: "次へ"
+    survey2:
+      title: "サービス改善のご提案 (2/2)"
+      subtitle: "もう一点だけ、ご意見をお聞かせください。"
+      feedback_label: "このようなサービスがあったら良かったなと思うことはありますか？"
+      feedback_placeholder: "例：予約システム、メニューの種類、設備など"
+      submit_button: "完了"
+    notice:
+      low_rating:
+        icon_class: "bi bi-chat-square-heart text-primary"
+        title: "フィードバックありがとうございました"
+        message: "いただいたご意見を真摯に受け止め、サービスの改善に活かしてまいります。"
+        google_request: "よろしければ、Googleマップの口コミにも評価お願いします。"
+      high_rating:
+        icon_class: "bi bi-hand-thumbs-up text-warning"
+        title: "レビューありがとうございます！"
+        message: "ご満足いただけて嬉しいです！"
+        google_request: "よろしければ、Googleマップの口コミにも評価お願いします。"
+      comment_placeholder: "こちらのコメントをGoogleの口コミにコピー＆ペーストしていただけます"
+      copy_button: "コメントをコピー"
+      copy_tooltip: "クリックでクリップボードにコピー"
+      google_button: "Google口コミを書く"
+      copy_success: "コメントをコピーしました"

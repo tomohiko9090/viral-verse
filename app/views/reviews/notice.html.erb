@@ -1,130 +1,131 @@
 <div class="container">
- <div class="row justify-content-center">
-   <div class="col-lg-8">
-     <div class="card shadow-sm">
-       <div class="card-body p-4 text-center">
-         <% if @review.score.between?(1, 3) %>
-           <%# 評価が1-3の場合 %>
-           <div class="mb-4">
-             <i class="bi bi-chat-square-heart text-primary" style="font-size: 3rem;"></i>
-           </div>
-           <h2 class="h3 mb-3">フィードバックありがとうございました</h2>
-           <p class="text-muted">
-             いただいたご意見を真摯に受け止め、<br>
-             サービスの改善に活かしてまいります。<br><br>
+  <div class="row justify-content-center mb-3">
+    <div class="col-lg-8 d-flex justify-content-end">
+      <%= render 'shared/language_switcher' %>
+    </div>
+  </div>
 
-             よろしければ、Googleマップの口コミにも評価お願いします。
-           </p>
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4 text-center">
+          <% if @review.score.between?(1, 3) %>
+            <%# 評価が1-3の場合 %>
+            <div class="mb-4">
+              <i class="<%= t('reviews.notice.low_rating.icon_class') %>" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="h3 mb-3"><%= t('reviews.notice.low_rating.title') %></h2>
+            <p class="text-muted">
+              <%= t('reviews.notice.low_rating.message') %><br><br>
+              <%= t('reviews.notice.low_rating.google_request') %>
+            </p>
 
-         <% else %>
-           <%# 評価が4-5の場合 %>
-           <div class="mb-4">
-             <i class="bi bi-hand-thumbs-up text-warning" style="font-size: 3rem;"></i>
-           </div>
-           <h2 class="h3 mb-3">レビューありがとうございます!</h2>
-           <p class="text-muted mb-4">
-             ご満足いただけて嬉しいです!<br>
-             よろしければ、Googleマップの口コミにも評価お願いします。
-           </p>
+          <% else %>
+            <%# 評価が4-5の場合 %>
+            <div class="mb-4">
+              <i class="<%= t('reviews.notice.high_rating.icon_class') %>" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="h3 mb-3"><%= t('reviews.notice.high_rating.title') %></h2>
+            <p class="text-muted mb-4">
+              <%= t('reviews.notice.high_rating.message') %><br>
+              <%= t('reviews.notice.high_rating.google_request') %>
+            </p>
 
-           <%# コメントコピー機能 %>
-           <div class="card bg-light mb-4">
-             <div class="card-body">
-               <div class="form-group mb-3">
-                 <%= text_area_tag 'fe_text', @comment, 
-                     rows: 3, 
-                     class: 'form-control mb-2',
-                     placeholder: 'こちらのコメントをGoogleの口コミにコピー＆ペーストしていただけます' %>
+            <%# コメントコピー機能 %>
+            <div class="card bg-light mb-4">
+              <div class="card-body">
+                <div class="form-group mb-3">
+                  <%= text_area_tag 'fe_text', @comment, 
+                      rows: 3, 
+                      class: 'form-control mb-2',
+                      placeholder: t('reviews.notice.comment_placeholder') %>
 
-                 <%= button_tag type: 'button', 
-                     class: 'btn btn-secondary',
-                     onclick: 'copyToClipboard()',
-                     data: { 
-                       "bs-toggle": "tooltip",
-                       "bs-placement": "top"
-                     },
-                     title: 'クリックでクリップボードにコピー' do %>
-                   <i class="bi bi-clipboard me-2"></i>コメントをコピー
-                 <% end %>
-               </div>
-             </div>
-           </div>
-         <% end %>
+                  <%= button_tag type: 'button', 
+                      class: 'btn btn-secondary',
+                      onclick: 'copyToClipboard()',
+                      data: { 
+                        "bs-toggle": "tooltip",
+                        "bs-placement": "top"
+                      },
+                      title: t('reviews.notice.copy_tooltip') do %>
+                    <i class="bi bi-clipboard me-2"></i><%= t('reviews.notice.copy_button') %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
 
-        <%# Google口コミへのリンク %>
-        <%= button_to @shop.url, 
-            method: :get,
-            form: { target: '_blank' },
-            class: "btn btn-primary btn-lg" do %>
-          <i class="bi bi-google me-2"></i>Google口コミを書く
-        <% end %>         
-       </div>
-     </div>
-   </div>
- </div>
+          <%# Google口コミへのリンク %>
+          <%= button_to @shop.url, 
+              method: :get,
+              form: { target: '_blank' },
+              class: "btn btn-primary btn-lg" do %>
+            <i class="bi bi-google me-2"></i><%= t('reviews.notice.google_button') %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<%# JavaScript %>
-<script>
-function copyToClipboard() {
- var textArea = document.getElementById('fe_text');
- textArea.select();
- try {
-   var successful = document.execCommand('copy');
-   if (successful) {
-     // Bootstrapのトーストを表示
-     const toast = new bootstrap.Toast(document.getElementById('copyToast'));
-     toast.show();
-   } else {
-     alert('コピーに失敗しました');
-   }
- } catch (err) {
-   console.error('コピーに失敗しました: ', err);
- }
-}
-
-// ツールチップの初期化
-document.addEventListener('DOMContentLoaded', function() {
- var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
- var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-   return new bootstrap.Tooltip(tooltipTriggerEl);
- });
-});
-</script>
 
 <%# トースト通知用のHTML %>
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
- <div id="copyToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-   <div class="d-flex">
-     <div class="toast-body">
-       <i class="bi bi-check2-circle me-2"></i>コメントをコピーしました
-     </div>
-     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-   </div>
- </div>
+  <div id="copyToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        <i class="bi bi-check2-circle me-2"></i><%= t('reviews.notice.copy_success') %>
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
 </div>
 
+<%# JavaScript部分はそのまま %>
+<script>
+  function copyToClipboard() {
+    var textArea = document.getElementById('fe_text');
+    textArea.select();
+    try {
+      var successful = document.execCommand('copy');
+      if (successful) {
+        const toast = new bootstrap.Toast(document.getElementById('copyToast'));
+        toast.show();
+      } else {
+        alert('コピーに失敗しました');
+      }
+    } catch (err) {
+      console.error('コピーに失敗しました: ', err);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
+</script>
+
 <style>
-/* アニメーション */
+/* スタイルはそのまま */
 .card {
- animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
- from {
-   opacity: 0;
-   transform: translateY(10px);
- }
- to {
-   opacity: 1;
-   transform: translateY(0);
- }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* レスポンシブ調整 */
 @media (max-width: 576px) {
- .card-body {
-   padding: 1.5rem !important;
- }
+  .card-body {
+    padding: 1.5rem !important;
+  }
 }
 </style>

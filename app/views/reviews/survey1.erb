@@ -1,31 +1,38 @@
+<%# app/views/reviews/survey1.erb %>
 <div class="container">
+  <div class="row justify-content-center mb-3">
+    <div class="col-lg-8 d-flex justify-content-end">
+      <%= render 'shared/language_switcher' %>
+    </div>
+  </div>
+
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card shadow-sm">
         <div class="card-body p-4">
-          <h2 class="h3 mb-3 text-center">改善点について (1/2)</h2>
+          <h2 class="h3 mb-3 text-center"><%= t('.title') %></h2>
           <p class="text-muted text-center mb-4">
-            サービス向上のため、もう少し詳しくお聞かせください。
+            <%= t('.subtitle') %>
           </p>
 
-          <%= form_with(url: submit_survey1_shop_review_path(@shop, @review), 
+          <%= form_with(url: localized_submit_survey1_shop_review_path(@shop, @review, locale: params[:locale]), 
                         data: { turbo: false },
                         method: :post
                         ) do |form| %>
             <div class="mb-4">
-              <label class="form-label">良くなかったと感じた点はなんですか？
+              <label class="form-label"><%= t('.feedback_label') %>
                 <span class="text-danger">*</span>
               </label>
               <%= form.text_area :feedback1, 
                   class: "form-control",
                   value: session[:feedback1],
                   rows: 4,
-                  placeholder: "例：接客の態度、待ち時間、施設の清潔さなど",
+                  placeholder: t('.feedback_placeholder'),
                   required: true %>
             </div>
 
             <div class="text-center">
-              <%= form.submit '次へ', class: 'btn btn-primary btn-lg px-5' %>
+              <%= form.submit t('.next_button'), class: 'btn btn-primary btn-lg px-5' %>
             </div>
           <% end %>
         </div>

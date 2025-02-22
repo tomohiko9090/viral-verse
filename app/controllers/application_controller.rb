@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  before_action :set_default_locale
+
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from ActionController::RoutingError, with: :not_found
 
@@ -39,5 +41,9 @@ class ApplicationController < ActionController::Base
   def redirect_shop_index
     flash[:danger] = 'アクセス権限がありません'
     redirect_to shops_path
+  end
+
+  def set_default_locale
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 end
