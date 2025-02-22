@@ -1,0 +1,11 @@
+<div class="language-switcher">
+  <% if params[:locale] == 'en' %>
+    <%= link_to url_for(locale: 'ja'), class: "lang-link" do %>
+      <span class="lang-text">日本語</span>
+    <% end %>
+  <% else %>
+    <%= link_to url_for(locale: 'en'), class: "lang-link" do %>
+      <span class="lang-text">English</span>
+    <% end %>
+  <% end %>
+</div>
