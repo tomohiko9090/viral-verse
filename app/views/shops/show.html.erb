@@ -29,7 +29,7 @@
           <%= link_to '投稿されたレビューの一覧', shop_reviews_path(@shop), class: "text-decoration-none" %>
         </li>
         <li class="list-group-item">
-          <%= link_to '投稿フォーム', new_shop_review_path(@shop), class: "text-decoration-none" %>
+          <%= link_to '投稿フォーム', localized_new_shop_reviews_path(@shop, locale: :ja), class: "text-decoration-none" %>
         </li>
         <% if @shop.qr_code.present? %>
           <li class="list-group-item">

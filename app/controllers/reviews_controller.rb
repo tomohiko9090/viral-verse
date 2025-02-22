@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+  before_action :set_locale
   before_action :require_login, only: [:index]
   before_action :set_shop
   before_action :set_review, only: [:notice, :survey1, :survey2, :submit_survey1, :submit_survey2]
@@ -70,13 +71,13 @@ class ReviewsController < ApplicationController
       @comment = @review.comments
       if @review.score.between?(1, 3)
         # 評価が1-3の場合はアンケートへ
-        redirect_to survey1_shop_review_path(@shop, @review)
+        redirect_to localized_survey1_shop_review_path(@shop, @review, locale: params[:locale])
       else
         # 評価が4-5の場合は通常の完了画面へ
-        render 'notice'
+        redirect_to localized_notice_shop_review_path(@shop, @review, locale: params[:locale])
       end
     else
-      flash.now[:alert] = 'レビューの保存に失敗しました。入力内容を確認してください。'
+      flash.now[:alert] = t('.save_error')
       render :new
     end
   end
@@ -96,7 +97,7 @@ class ReviewsController < ApplicationController
 
   def submit_survey1
     session[:feedback1] = params[:feedback1]
-    redirect_to survey2_shop_review_path(@shop, @review)
+    redirect_to localized_survey2_shop_review_path(@shop, @review, locale: params[:locale])
   end
 
   def submit_survey2
@@ -107,9 +108,9 @@ class ReviewsController < ApplicationController
     )
       # セッションをクリア
       session.delete(:feedback1)
-      redirect_to notice_shop_review_path(@shop, @review)
+      redirect_to localized_notice_shop_review_path(@shop, @review, locale: params[:locale])
     else
-      flash.now[:alert] = 'アンケートの保存に失敗しました。'
+      flash.now[:alert] = t('.survey_save_error')
       render :survey2
     end
   end
@@ -128,5 +129,9 @@ class ReviewsController < ApplicationController
 
   def review_params
     params.require(:review).permit(:score, :comments)
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] if params[:locale].present?
   end
 end
