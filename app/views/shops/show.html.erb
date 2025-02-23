@@ -1,86 +1,149 @@
 <div class="container-fluid">
-  <h2 class="mb-4"><%= @shop.name %></h2>
+ <h2 class="mb-4"><%= @shop.name %></h2>
 
-  <%# お店の管理セクション %>
-  <div class="card mb-4">
-    <div class="card-header">
-      <h5 class="mb-0">お店の管理</h5>
-    </div>
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <%= link_to 'google口コミページ', @shop.url, target: "_blank", class: "text-decoration-none" %>
-        </li>
-        <li class="list-group-item">
-          <%= link_to 'お店修正ページ', edit_shop_path(@shop), class: "text-decoration-none" %>
-        </li>
-      </ul>
-    </div>
-  </div>
+ <%# お店の管理セクション %>
+ <div class="card mb-4">
+   <div class="card-header">
+     <h5 class="mb-0">お店の管理</h5>
+   </div>
+   <div class="card-body">
+     <div class="d-flex flex-column">
+       <%= link_to @shop.url, target: "_blank", class: "text-primary text-decoration-none d-flex justify-content-between align-items-center p-2 border-bottom" do %>
+         google口コミページ
+         <i class="bi bi-box-arrow-up-right"></i>
+       <% end %>
+       <%= link_to edit_shop_path(@shop), class: "text-primary text-decoration-none d-flex justify-content-between align-items-center p-2" do %>
+         お店修正ページ
+         <i class="bi bi-pencil"></i>
+       <% end %>
+     </div>
+   </div>
+ </div>
 
-  <%# レビュー管理セクション %>
-  <div class="card mb-4">
-    <div class="card-header">
-      <h5 class="mb-0">レビュー管理</h5>
-    </div>
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <%= link_to '投稿されたレビューの一覧', shop_reviews_path(@shop), class: "text-decoration-none" %>
-        </li>
-        <li class="list-group-item">
-          <%= link_to '投稿フォーム', localized_new_shop_reviews_path(@shop, locale: :ja), class: "text-decoration-none" %>
-        </li>
-        <% if @shop.qr_code.present? %>
-          <li class="list-group-item">
-            <%= image_tag @shop.qr_code, class: "img-fluid" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
+ <%# レビュー管理セクション %>
+ <div class="card mb-4">
+   <div class="card-header">
+     <h5 class="mb-0">レビュー管理</h5>
+   </div>
+   <div class="card-body">
+     <div class="row">
+       <div class="col-12 mb-4">
+         <div class="d-flex flex-column">
+           <%= link_to shop_reviews_path(@shop), class: "text-primary text-decoration-none d-flex justify-content-between align-items-center p-2 border-bottom" do %>
+             投稿されたレビューの一覧
+             <i class="bi bi-chevron-right"></i>
+           <% end %>
+           <%= link_to localized_new_shop_reviews_path(@shop, locale: :ja), class: "text-primary text-decoration-none d-flex justify-content-between align-items-center p-2" do %>
+             投稿フォーム
+             <i class="bi bi-chevron-right"></i>
+           <% end %>
+         </div>
+       </div>
 
-  <%# ユーザー管理セクション（管理者のみ） %>
-  <% if current_user.admin? %>
-    <div class="card mb-4">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">ユーザー管理</h5>
-        <%= link_to '新規ユーザー作成', new_shop_user_path(@shop), class: "btn btn-primary btn-sm" %>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>名前</th>
-                <th>メール</th>
-                <th>言語</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @shop.shop_users.includes(:user).each do |shop_user| %>
-                <% user = shop_user.user %>
-                <tr>
-                  <td><%= user.name %></td>
-                  <td><%= user.email %></td>
-                  <td><%= user.language.name %></td>
-                  <td>
-                    <%= link_to '編集', edit_shop_user_path(@shop, user), class: "btn btn-outline-primary btn-sm" %>
-                  </td>
-                </tr>
+      <%# QRコード部分 %>
+      <% if @shop.qr_code_ja.present? || @shop.qr_code_en.present? %>
+        <div class="col-12">
+          <div class="border-top pt-4">
+            <div class="text-center mb-4">
+              <h6 class="mb-2">レビュー用QRコード</h6>
+              <p class="text-muted small mb-1">店舗のレビューページへアクセスします。</p>
+              <div class="d-flex justify-content-center gap-2 text-muted small">
+                <div><i class="bi bi-phone me-1"></i>スマートフォンで読み取り</div>
+                <div><i class="bi bi-arrow-clockwise me-1"></i>店舗情報更新で自動生成</div>
+              </div>
+            </div>
+            
+            <div class="row justify-content-center g-4">
+              <% if @shop.qr_code_ja.present? %>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded text-center h-100">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                      <span class="badge bg-primary me-2">日本語</span>
+                    </div>
+                    <%= image_tag @shop.qr_code_ja, class: "img-fluid mb-3", style: "max-width: 180px;" %>
+                    <%= link_to @shop.qr_code_ja, 
+                        download: "#{@shop.name}_qr_ja.png",
+                        class: "btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center gap-2 mx-auto",
+                        style: "width: fit-content;" do %>
+                      <i class="bi bi-download"></i>
+                      <span>QRコードを保存</span>
+                    <% end %>
+                  </div>
+                </div>
               <% end %>
-            </tbody>
-          </table>
+              
+              <% if @shop.qr_code_en.present? %>
+                <div class="col-md-6">
+                  <div class="p-3 border rounded text-center h-100">
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                      <span class="badge bg-primary me-2">英語</span>
+                    </div>
+                    <%= image_tag @shop.qr_code_en, class: "img-fluid mb-3", style: "max-width: 180px;" %>
+                    <%= link_to @shop.qr_code_en, 
+                        download: "#{@shop.name}_qr_en.png",
+                        class: "btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center gap-2 mx-auto",
+                        style: "width: fit-content;" do %>
+                      <i class="bi bi-download"></i>
+                      <span>QRコードを保存</span>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  <% end %>
+      <% end %>
+     </div>
+   </div>
+ </div>
 
-  <%# ナビゲーションボタン %>
-  <% if current_user.admin? %>
-    <div class="mt-3">
-      <%= link_to '店舗一覧へ戻る', shops_path, class: "btn btn-secondary" %>
-    </div>
-  <% end %>
+ <%# ユーザー管理セクション（管理者のみ） %>
+ <% if current_user.admin? %>
+   <div class="card mb-4">
+     <div class="card-header d-flex justify-content-between align-items-center">
+       <h5 class="mb-0">ユーザー管理</h5>
+       <%= link_to new_shop_user_path(@shop), class: "btn btn-primary btn-sm" do %>
+         <i class="bi bi-person-plus me-1"></i>新規ユーザー作成
+       <% end %>
+     </div>
+     <div class="card-body">
+       <div class="table-responsive">
+         <table class="table table-hover align-middle">
+           <thead>
+             <tr>
+               <th>名前</th>
+               <th>メール</th>
+               <th>言語</th>
+               <th>操作</th>
+             </tr>
+           </thead>
+           <tbody>
+             <% @shop.shop_users.includes(:user).each do |shop_user| %>
+               <% user = shop_user.user %>
+               <tr>
+                 <td><%= user.name %></td>
+                 <td><%= user.email %></td>
+                 <td><%= user.language.name %></td>
+                 <td>
+                   <%= link_to edit_shop_user_path(@shop, user), class: "btn btn-outline-primary btn-sm" do %>
+                     <i class="bi bi-pencil me-1"></i>編集
+                   <% end %>
+                 </td>
+               </tr>
+             <% end %>
+           </tbody>
+         </table>
+       </div>
+     </div>
+   </div>
+ <% end %>
+
+ <%# ナビゲーションボタン %>
+ <% if current_user.admin? %>
+   <div class="mt-3">
+     <%= link_to shops_path, class: "btn btn-secondary" do %>
+       <i class="bi bi-arrow-left me-1"></i>店舗一覧へ戻る
+     <% end %>
+   </div>
+ <% end %>
 </div>
