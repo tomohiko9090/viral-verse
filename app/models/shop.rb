@@ -12,15 +12,26 @@ class Shop < ApplicationRecord
   validates :name, presence: true
   validates :url, presence: true
 
-  after_create :generate_qr_code
-  after_update :generate_qr_code
+  after_create :generate_qr_codes
+  after_update :generate_qr_codes
 
-  def generate_qr_code
-    # urlが変更された場合、もしくはqr_codeがnilの場合のみ実行
-    return unless saved_change_to_url? || qr_code.nil?
+  private
 
+  def generate_qr_codes
+    # URLが変更された場合、もしくはQRコードがnilの場合のみ実行
+    return unless saved_change_to_url? || qr_code_ja.nil? || qr_code_en.nil?
+
+    # 日本語版QRコード生成
+    generate_qr_code(:ja)
+    # 英語版QRコード生成
+    generate_qr_code(:en)
+  rescue => e
+    Rails.logger.error "Failed to generate QR codes for Shop #{id}: #{e.message}"
+  end
+
+  def generate_qr_code(locale)
     host = Rails.env.production? ? 'https://57.182.63.187' : 'http://127.0.0.1:3000'
-    review_url = Rails.application.routes.url_helpers.new_shop_review_url(self, host: host)
+    review_url = Rails.application.routes.url_helpers.localized_new_shop_reviews_url(self, locale: locale, host: host)
     qr = RQRCode::QRCode.new(review_url)
     png = qr.as_png(
       bit_depth: 1,
@@ -35,13 +46,13 @@ class Shop < ApplicationRecord
       size: 120
     )
 
-    file_name = "shop_review_qr_#{id}.png"
+    file_name = "shop_review_qr_#{id}_#{locale}.png"
     file_path = Rails.root.join('public', 'qr_codes', file_name)
 
     File.open(file_path, 'wb') { |f| f.write(png.to_s) }
 
-    update_column(:qr_code, "/qr_codes/#{file_name}")
-  rescue => e
-    Rails.logger.error "Failed to generate QR code for Shop #{id}: #{e.message}"
+    # ロケールに応じてカラムを更新
+    column_name = "qr_code_#{locale}"
+    update_column(column_name, "/qr_codes/#{file_name}")
   end
 end
