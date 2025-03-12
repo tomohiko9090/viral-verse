@@ -60,6 +60,6 @@ class ShopsController < ApplicationController
   end
 
   def shop_params
-    params.require(:shop).permit(:name, :url, :qr_code_ja, :qr_code_en)
+    params.require(:shop).permit(:name, :url, :url_tripadvisor, :qr_code_ja, :qr_code_en)
   end
 end
