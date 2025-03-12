@@ -42,4 +42,5 @@ en:
       copy_button: "Copy Comment"
       copy_tooltip: "Click to copy to clipboard"
       google_button: "Write a Google Review"
+      tripadvisor_button: "Write a TripAdvisor Review"
       copy_success: "Comment copied"

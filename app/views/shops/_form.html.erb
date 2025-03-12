@@ -19,6 +19,10 @@
       <%= form.label 'google口コミリンク' %>
       <%= form.text_field :url, class: "form-control"%>
     </div>
+    <div class="mb-3">
+      <%= form.label 'TripAdvisor口コミリンク' %>
+      <%= form.text_field :url_tripadvisor, class: "form-control"%>
+    </div>
     <%= form.submit shop.new_record? ? '作成' : '更新', class: "btn btn-success" %>
     </form>
 <% end %>

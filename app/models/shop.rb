@@ -10,7 +10,6 @@ class Shop < ApplicationRecord
   }
 
   validates :name, presence: true
-  validates :url, presence: true
 
   after_create :generate_qr_codes
   after_update :generate_qr_codes
