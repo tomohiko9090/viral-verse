@@ -35,7 +35,7 @@
             <div class="card bg-light mb-4">
               <div class="card-body">
                 <div class="form-group mb-3">
-                  <%= text_area_tag 'fe_text', @comment, 
+                  <%= text_area_tag 'fe_text', @review.comments,
                       rows: 3, 
                       class: 'form-control mb-2',
                       placeholder: t('reviews.notice.comment_placeholder') %>
@@ -55,13 +55,29 @@
             </div>
           <% end %>
 
-          <%# Google口コミへのリンク %>
-          <%= button_to @shop.url, 
-              method: :get,
-              form: { target: '_blank' },
-              class: "btn btn-primary btn-lg" do %>
-            <i class="bi bi-google me-2"></i><%= t('reviews.notice.google_button') %>
-          <% end %>
+            <%# Google口コミとTripAdvisorへのリンクボタン - 並列表示 %>
+            <div class="d-flex flex-wrap justify-content-center gap-3 mb-2">
+              <% if @shop.url.present? %>
+                <%= button_to @shop.url,
+                    method: :get,
+                    form: { target: '_blank' },
+                    class: "btn btn-primary btn-lg d-flex align-items-center justify-content-center" do %>
+                  <i class="bi bi-google me-2"></i><%= t('reviews.notice.google_button') %>
+                <% end %>
+              <% end %>
+
+              <% if @shop.url_tripadvisor.present? %>
+                <%= button_to @shop.url_tripadvisor,
+                    method: :get,
+                    form: { target: '_blank' },# 34973D
+                    style: "background-color: #35E0A1; color: white; border: none;",
+                    class: "btn btn-lg d-flex align-items-center justify-content-center" do %>
+                  <%= image_tag "tripadvisor_logo.png", alt: "TripAdvisor", width: 30, height: 30, class: "me-2" %>
+                  <%= t('reviews.notice.tripadvisor_button', default: 'で口コミを書く') %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
     </div>

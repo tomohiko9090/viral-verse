@@ -42,4 +42,5 @@ ja:
       copy_button: "コメントをコピー"
       copy_tooltip: "クリックでクリップボードにコピー"
       google_button: "Google口コミを書く"
+      tripadvisor_button: "TripAdvisor口コミを書く"
       copy_success: "コメントをコピーしました"
