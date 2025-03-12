@@ -33,7 +33,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-
+s
 .DS_Store
 app/.DS_Store
 app/assets/.DS_Store
@@ -43,4 +43,5 @@ app/assets/.DS_Store
 
 /.env
 config/credentials.yml.enc
+public/*
 
