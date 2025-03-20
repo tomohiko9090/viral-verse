@@ -17,6 +17,7 @@ RAILS_ENV=production bundle exec unicorn_rails -c config/unicorn.rb -E productio
 |-------------|------------|------------|-----------------|-------------------|
 | admin       | 開発者・運用者 | すべてのお店 | すべて            | すべて              |
 | owner       | オーナー・店長・店員 | 特定のお店   | show, edit, update | すべて              |
+| multipul_owner | エリアマネージャー | 特定のお店   | show, edit, update | すべて              |
 | customer    | お店に来たお客さん | 特定のお店   | アクセス不可           | new, create, notice |
 
 # 権限別URLアクセス可否一覧表
