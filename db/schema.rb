@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_06_011245) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_06_013904) do
   create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", comment: "レビュー情報を管理するテーブル", force: :cascade do |t|
     t.bigint "shop_id", null: false, comment: "店舗ID（shops.id）"
+    t.bigint "user_id", comment: "ユーザーID（users.id）、未ログイン時はnull"
     t.integer "score", null: false, comment: "評価点数（1-5）"
     t.text "comments", null: false, comment: "レビューコメント（最大1000文字）"
     t.text "feedback1", comment: "アンケート回答1（評価1-3の場合）"
@@ -22,6 +23,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_06_011245) do
     t.datetime "deleted_at", comment: "論理削除日時"
     t.index ["deleted_at"], name: "index_reviews_on_deleted_at"
     t.index ["shop_id"], name: "index_reviews_on_shop_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "shop_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -63,6 +65,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_06_011245) do
   end
 
   add_foreign_key "reviews", "shops"
+  add_foreign_key "reviews", "users"
   add_foreign_key "shop_users", "shops"
   add_foreign_key "shop_users", "users"
 end
