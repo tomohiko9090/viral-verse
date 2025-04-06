@@ -10,6 +10,9 @@ class ReviewsController < ApplicationController
     @shop = Shop.find(params[:shop_id])
     @reviews = @shop.reviews.order(created_at: :desc)
 
+    # ログインユーザーのレビューを除外した統計情報用のレビュー
+    @public_reviews = @reviews.where(user_id: nil)
+
     # 検索条件の有無を確認
     @is_searching = params[:score].present? || params[:month].present?
 
@@ -29,8 +32,8 @@ class ReviewsController < ApplicationController
 
     # 検索していない場合のみグラフデータを準備
     unless @is_searching
-      # 月別データの取得
-      monthly_counts = @reviews
+      # 月別データの取得（ログインユーザーのレビューを除外）
+      monthly_counts = @public_reviews
         .group_by { |review| review.created_at.beginning_of_month }
         .transform_keys { |date| date.strftime('%Y年%m月') }
         .transform_values(&:count)
@@ -67,6 +70,10 @@ class ReviewsController < ApplicationController
 
   def create
     @review = @shop.reviews.new(review_params)
+
+    # ログインしているユーザーがいればuser_idを設定
+    @review.user_id = current_user&.id if defined?(current_user)
+
     if @review.save
       @comment = @review.comments
       if @review.score.between?(1, 3)
