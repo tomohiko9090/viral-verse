@@ -10,10 +10,10 @@
       </div>
     <% else %>
       <div>
-        総レビュー数: <b><%= @reviews.count %>件</b>
+        総レビュー数: <b><%= @public_reviews.count %>件</b>
       </div>
       <div>
-        平均評価: <b><%= @reviews.average(:score)&.round(1) || 0 %></b>
+        平均評価: <b><%= @public_reviews.average(:score)&.round(1) || 0 %></b>
       </div>
     <% end %>
   </small>
@@ -132,6 +132,7 @@
       <th>評価</th>
       <th>コメント</th>
       <th>投稿日</th>
+      <th>カウント</th>
     </tr>
   </thead>
   <tbody>
@@ -143,6 +144,13 @@
         </td>
         <td><%= review.comments %></td>
         <td><%= review.created_at.in_time_zone('Tokyo').strftime('%Y年%m月%d日 %H:%M') %></td>
+        <td>
+          <% if review.user_id.present? %>
+            <span class="badge bg-secondary">無効票（<%= review.user.name %>）</span>
+          <% else %>
+            <span class="badge bg-success">有効票</span>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
