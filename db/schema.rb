@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_12_144219) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_06_011245) do
   create_table "reviews", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", comment: "レビュー情報を管理するテーブル", force: :cascade do |t|
     t.bigint "shop_id", null: false, comment: "店舗ID（shops.id）"
     t.integer "score", null: false, comment: "評価点数（1-5）"
@@ -38,15 +38,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_12_144219) do
 
   create_table "shops", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", comment: "店舗情報を管理するテーブル", force: :cascade do |t|
     t.string "name", null: false, comment: "店舗名"
-    t.string "url", comment: "google URL"
-    t.string "url_tripadvisor", comment: "tripadvisor URL"
+    t.text "url", comment: "google URL"
+    t.text "url_tripadvisor", comment: "tripadvisor URL"
     t.string "qr_code_ja", comment: "日本語版QRコードの保存パス"
     t.datetime "created_at", null: false, comment: "作成日時"
     t.datetime "updated_at", null: false, comment: "更新日時"
     t.datetime "deleted_at", comment: "論理削除日時"
     t.string "qr_code_en", comment: "英語版QRコードの保存パス"
     t.index ["deleted_at"], name: "index_shops_on_deleted_at"
-    t.index ["url"], name: "index_shops_on_url", unique: true
+    t.index ["url"], name: "index_shops_on_url", unique: true, length: 255
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", comment: "ユーザー情報を管理するテーブル", force: :cascade do |t|
