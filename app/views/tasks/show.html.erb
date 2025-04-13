@@ -1,0 +1,269 @@
+<%# app/views/tasks/show.html.erb %>
+<div class="row">
+  <div class="col-md-12">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to 'タスク一覧', tasks_path %></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= @task_name %></li>
+      </ol>
+    </nav>
+
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="bi bi-lightning-charge me-2"></i><%= @task_name %></h4>
+        <span class="badge bg-info"><%= @task_namespace %></span>
+      </div>
+      <div class="card-body">
+        <div class="mb-4">
+          <h5 class="mb-2">タスク詳細</h5>
+          <p class="text-muted"><%= @task_info[:description] %></p>
+          
+          <% if @task_info[:arguments].present? %>
+            <div class="mb-3">
+              <h6 class="mb-2">必要な引数：</h6>
+              <ul class="list-group">
+                <% @task_info[:arguments].each do |arg| %>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><code><%= arg %></code></span>
+                    <span class="badge bg-secondary">引数</span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+
+        <% sql_files = get_task_sql_files(@full_task_name) %>
+        <div class="mb-4">
+          <h5 class="mb-3">タスク実行SQLクエリ</h5>
+          
+          <ul class="nav nav-tabs mb-3" id="sqlTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="before-tab" data-bs-toggle="tab" data-bs-target="#before-sql" type="button" role="tab">
+                実行前SQL
+                <% if sql_files[:before].present? %>
+                  <span class="badge bg-success ms-1">ファイル有</span>
+                <% else %>
+                  <span class="badge bg-secondary ms-1">ファイル無</span>
+                <% end %>
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="after-tab" data-bs-toggle="tab" data-bs-target="#after-sql" type="button" role="tab">
+                実行後SQL
+                <% if sql_files[:after].present? %>
+                  <span class="badge bg-success ms-1">ファイル有</span>
+                <% else %>
+                  <span class="badge bg-secondary ms-1">ファイル無</span>
+                <% end %>
+              </button>
+            </li>
+          </ul>
+          
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="before-sql" role="tabpanel">
+              <div class="form-group">
+                <textarea id="before_sql_content" name="before_sql_content" class="form-control code-editor" rows="8" placeholder="実行前に実行するSQLクエリを入力"><%= sql_files[:before].present? ? sql_files[:before][:content] : "" %></textarea>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <div class="form-text">
+                    <% if sql_files[:before].present? %>
+                      <i class="bi bi-file-code me-1"></i><%= sql_files[:before][:filename] %> からロードされました
+                    <% else %>
+                      <i class="bi bi-info-circle me-1"></i>実行前SQLファイルが見つかりません。必要に応じてクエリを入力できます。
+                    <% end %>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-primary execute-sql" data-target="before_sql_content" data-turbo="false">
+                    <i class="bi bi-lightning me-1"></i>クエリ実行
+                  </button>
+                </div>
+                <div id="before_sql_result" class="mt-2 d-none">
+                  <div class="alert alert-info">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <strong><i class="bi bi-terminal me-2"></i>実行結果</strong>
+                      <button type="button" class="btn-close close-result" data-target="before_sql_result"></button>
+                    </div>
+                    <hr>
+                    <pre class="mb-0"><code class="result-content"></code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="tab-pane fade" id="after-sql" role="tabpanel">
+              <div class="form-group">
+                <textarea id="after_sql_content" name="after_sql_content" class="form-control code-editor" rows="8" placeholder="実行後に実行するSQLクエリを入力"><%= sql_files[:after].present? ? sql_files[:after][:content] : "" %></textarea>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <div class="form-text">
+                    <% if sql_files[:after].present? %>
+                      <i class="bi bi-file-code me-1"></i><%= sql_files[:after][:filename] %> からロードされました
+                    <% else %>
+                      <i class="bi bi-info-circle me-1"></i>実行後SQLファイルが見つかりません。必要に応じてクエリを入力できます。
+                    <% end %>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline-primary execute-sql" data-target="after_sql_content" data-turbo="false">
+                    <i class="bi bi-lightning me-1"></i>クエリ実行
+                  </button>
+                </div>
+                <div id="after_sql_result" class="mt-2 d-none">
+                  <div class="alert alert-info">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <strong><i class="bi bi-terminal me-2"></i>実行結果</strong>
+                      <button type="button" class="btn-close close-result" data-target="after_sql_result"></button>
+                    </div>
+                    <hr>
+                    <pre class="mb-0"><code class="result-content"></code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%= form_tag execute_task_path, method: :post, class: "mb-0", id: "task-execute-form" do %>
+          <%= hidden_field_tag :task_name, @full_task_name %>
+          <%= hidden_field_tag :namespace, @task_namespace %>
+          <%= hidden_field_tag :name, @task_name %>
+
+          <% if @task_info[:arguments].present? %>
+            <div class="mb-4">
+              <h5 class="mb-3">引数の指定</h5>
+              <div class="row">
+                <% @task_info[:arguments].each_with_index do |arg, index| %>
+                  <div class="col-md-3 mb-3">
+                    <label for="args_<%= index %>" class="form-label"><%= arg %></label>
+                    <input type="text" name="args[<%= index %>]" id="args_<%= index %>" class="form-control" placeholder="<%= arg %>の値">
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="d-flex justify-content-between mt-4">
+            <%= link_to tasks_path, class: "btn btn-outline-secondary" do %>
+              <i class="bi bi-arrow-left me-1"></i>戻る
+            <% end %>
+            
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-play-fill me-1"></i>タスクを実行
+              <% if sql_files[:before].present? || sql_files[:after].present? %>
+                <span class="badge bg-light text-dark ms-1">SQLあり</span>
+              <% end %>
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <% if flash[:task_result].present? %>
+      <div class="card mt-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0"><i class="bi bi-terminal me-2"></i>実行結果</h5>
+        </div>
+        <div class="card-body">
+          <pre class="bg-dark text-light p-3 rounded"><code><%= flash[:task_result] %></code></pre>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .code-editor {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  pre code {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // フォームにSQL内容を追加する処理
+    document.getElementById('task-execute-form').addEventListener('submit', function(e) {
+      // 実行前SQLの取得
+      const beforeSqlContent = document.getElementById('before_sql_content').value;
+      const beforeSqlInput = document.createElement('input');
+      beforeSqlInput.type = 'hidden';
+      beforeSqlInput.name = 'before_sql_content';
+      beforeSqlInput.value = beforeSqlContent;
+      this.appendChild(beforeSqlInput);
+      
+      // 実行後SQLの取得
+      const afterSqlContent = document.getElementById('after_sql_content').value;
+      const afterSqlInput = document.createElement('input');
+      afterSqlInput.type = 'hidden';
+      afterSqlInput.name = 'after_sql_content';
+      afterSqlInput.value = afterSqlContent;
+      this.appendChild(afterSqlInput);
+    });
+    
+    // SQLクエリ実行ボタンの処理
+    document.querySelectorAll('.execute-sql').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const sqlContent = document.getElementById(targetId).value;
+        const resultContainerId = targetId === 'before_sql_content' ? 'before_sql_result' : 'after_sql_result';
+        const resultContainer = document.getElementById(resultContainerId);
+        
+        if (sqlContent.trim() === '') {
+          alert('SQLクエリを入力してください。');
+          return;
+        }
+        
+        // ボタンを無効化して実行中を表示
+        this.disabled = true;
+        const originalText = this.innerHTML;
+        this.innerHTML = '<i class="bi bi-hourglass me-1"></i>実行中...';
+        
+        // フォームデータでPOST送信に変更
+        var formData = new FormData();
+        formData.append('sql_content', sqlContent);
+        
+        // APIリクエスト
+        fetch('<%= url_for(controller: "tasks", action: "execute_sql_query") %>', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          // 結果を表示
+          const resultContent = resultContainer.querySelector('.result-content');
+          if (data.success) {
+            resultContent.textContent = data.result || '（結果なし）';
+            resultContainer.classList.remove('d-none');
+          } else {
+            resultContent.textContent = '実行エラー: ' + data.error;
+            resultContainer.classList.remove('d-none');
+          }
+          
+          // ボタンを元に戻す
+          this.disabled = false;
+          this.innerHTML = originalText;
+        })
+        .catch(error => {
+          // エラー処理
+          console.error("Error:", error);
+          const resultContent = resultContainer.querySelector('.result-content');
+          resultContent.textContent = 'システムエラー: ' + error.message;
+          resultContainer.classList.remove('d-none');
+          
+          // ボタンを元に戻す
+          this.disabled = false;
+          this.innerHTML = originalText;
+        });
+      });
+    });
+    
+    // 結果を閉じるボタンの処理
+    document.querySelectorAll('.close-result').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('d-none');
+      });
+    });
+  });
+</script>

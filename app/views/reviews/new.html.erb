@@ -36,7 +36,7 @@
           <%= turbo_frame_tag "review_form", target: "_top" do %>
             <%= form_with(model: [@shop, @review], 
               url: shop_reviews_path(@shop, locale: params[:locale]),
-              local: true, 
+              local: true,
               data: { turbo: false }) do |form| %>
               <%# 評価 %>
               <div class="mb-4">

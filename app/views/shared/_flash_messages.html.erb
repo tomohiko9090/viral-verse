@@ -1,0 +1,33 @@
+<!-- app/views/shared/_flash_messages.html.erb -->
+<% if flash[:success] %>
+  <div class="flash success">
+    <i class="fas fa-check-circle"></i> <%= flash[:success] %>
+  </div>
+<% end %>
+
+<% if flash[:error] %>
+  <div class="flash error">
+    <i class="fas fa-exclamation-circle"></i> <%= flash[:error] %>
+  </div>
+<% end %>
+
+<% if flash[:notice] %>
+  <div class="flash notice">
+    <i class="fas fa-info-circle"></i> <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="flash alert">
+    <i class="fas fa-exclamation-triangle"></i> <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<%# app/views/shared/_flash_messages.html.erb %>
+<% flash.each do |type, message| %>
+  <% next if type == 'task_result' %>
+  <div class="alert <%= type == 'success' ? 'alert-success' : (type == 'error' ? 'alert-danger' : 'alert-info') %> alert-dismissible fade show" role="alert">
+    <%= message %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>

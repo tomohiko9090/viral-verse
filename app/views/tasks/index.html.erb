@@ -1,0 +1,237 @@
+<!-- app/views/tasks/index.html.erb -->
+<div class="task-management-container">
+  <div class="page-header">
+    <h1>Rake タスク管理</h1>
+    <p class="lead">アプリケーション内のRakeタスクを実行できます</p>
+  </div>
+  
+  <!-- フラッシュメッセージ -->
+  <%= render 'shared/flash_messages' %>
+  
+  <div class="task-dashboard">
+    <div class="task-sidebar">
+      <div class="search-box">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" id="taskSearch" placeholder="タスクを検索..." class="form-control">
+        </div>
+      </div>
+      
+      <nav class="task-nav">
+        <% @task_groups.each do |namespace, tasks| %>
+          <div class="task-group">
+            <h3 class="namespace-title">
+              <i class="bi bi-folder me-2"></i><%= namespace %>
+              <span class="badge bg-secondary float-end"><%= tasks.count %></span>
+            </h3>
+            <ul class="task-list">
+              <% tasks.each do |task| %>
+                <li class="task-item" data-task-name="<%= task[:full_name] %>" data-description="<%= task[:description] %>">
+                  <%= link_to task_path(namespace: task[:namespace], name: task[:name]), class: 'task-link' do %>
+                    <i class="bi bi-lightning me-2"></i><%= task[:name] %>
+                    <% if task[:arguments].present? %>
+                      <span class="badge bg-info float-end"><%= task[:arguments].count %>引数</span>
+                    <% end %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </nav>
+    </div>
+    
+    <div class="task-preview">
+      <div class="no-task-selected">
+        <div class="empty-state">
+          <i class="bi bi-terminal-fill icon"></i>
+          <h3>タスクを選択してください</h3>
+          <p>左側のメニューからタスクを選択すると詳細が表示されます</p>
+          <div class="task-info mt-4">
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-info-circle me-2"></i>タスク管理について</h5>
+                <p class="card-text">このインターフェースでは以下の操作が可能です：</p>
+                <ul class="list-unstyled">
+                  <li><i class="bi bi-check2-circle me-2 text-success"></i>登録されたRakeタスクの一覧表示</li>
+                  <li><i class="bi bi-check2-circle me-2 text-success"></i>タスク実行前後のSQLクエリの編集</li>
+                  <li><i class="bi bi-check2-circle me-2 text-success"></i>パラメータを指定してのタスク実行</li>
+                  <li><i class="bi bi-check2-circle me-2 text-success"></i>実行結果の表示</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 検索機能の実装
+    const searchInput = document.getElementById('taskSearch');
+    const taskItems = document.querySelectorAll('.task-item');
+    
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      
+      taskItems.forEach(function(item) {
+        const taskName = item.getAttribute('data-task-name').toLowerCase();
+        const taskDesc = item.getAttribute('data-description').toLowerCase();
+        
+        if (taskName.includes(searchTerm) || taskDesc.includes(searchTerm)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // ネームスペースの表示/非表示を切り替え
+      document.querySelectorAll('.namespace-title').forEach(function(title) {
+        const taskGroup = title.closest('.task-group');
+        const visibleTasks = taskGroup.querySelectorAll('.task-item:not([style*="display: none"])');
+        
+        if (visibleTasks.length > 0) {
+          taskGroup.style.display = '';
+        } else {
+          taskGroup.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .task-management-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .page-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 15px;
+  }
+  
+  .page-header h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+  }
+  
+  .lead {
+    font-size: 18px;
+    color: #7f8c8d;
+    margin-bottom: 0;
+  }
+  
+  .task-dashboard {
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    min-height: 600px;
+  }
+  
+  .task-sidebar {
+    width: 300px;
+    background: #f8f9fa;
+    border-right: 1px solid #e9ecef;
+    padding: 0;
+    overflow-y: auto;
+    height: 600px;
+  }
+  
+  .search-box {
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .task-nav {
+    padding: 10px 0;
+  }
+  
+  .task-group {
+    margin-bottom: 15px;
+  }
+  
+  .namespace-title {
+    padding: 8px 15px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+    background: #e9ecef;
+    cursor: pointer;
+  }
+  
+  .task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .task-item {
+    padding: 0;
+    border-bottom: 1px solid #f1f3f5;
+  }
+  
+  .task-link {
+    display: block;
+    padding: 10px 15px;
+    color: #495057;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 13px;
+  }
+  
+  .task-link:hover {
+    background: #e9ecef;
+    color: #212529;
+  }
+  
+  .task-preview {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    height: 600px;
+  }
+  
+  .no-task-selected {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .empty-state {
+    max-width: 500px;
+  }
+  
+  .empty-state .icon {
+    font-size: 64px;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .empty-state h3 {
+    font-size: 20px;
+    color: #495057;
+    margin-bottom: 10px;
+  }
+  
+  .empty-state p {
+    color: #6c757d;
+  }
+  
+  /* Flash メッセージのスタイル */
+  .alert {
+    margin-bottom: 20px;
+  }
+</style>

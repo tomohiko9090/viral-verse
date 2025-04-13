@@ -18,6 +18,9 @@
     <%# ファビコンの設定 %>
     <%= favicon_link_tag 'favicon.svg', rel: 'icon', type: 'image/svg+xml' %>
     <%= favicon_link_tag 'favicon.ico', rel: 'alternate icon' %>
+
+    <!-- app/views/layouts/application.html.erbの<head>タグ内に以下を追加 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   </head>
 
   <body class="d-flex flex-column min-vh-100">

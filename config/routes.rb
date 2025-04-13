@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  # タスク管理のルート
+  get 'tasks', to: 'tasks#index', as: 'tasks'
+  get 'tasks/:namespace/:name', to: 'tasks#show', as: 'task'
+  post 'tasks/execute', to: 'tasks#execute', as: 'execute_task'
+  post 'tasks/execute_sql_query', to: 'tasks#execute_sql_query', as: 'execute_sql_query'
+  
+  # 必要に応じて管理者のみアクセス可能にする
+  # authenticate :user, lambda { |u| u.admin? } do
+  #   get 'tasks', to: 'tasks#index'
+  #   get 'tasks/:namespace/:name', to: 'tasks#show'
+  #   post 'tasks/execute', to: 'tasks#execute', as: 'execute_task'
+  # end
+
   # セッション関連
   controller :sessions do
     get '/login' => :new, as: :login

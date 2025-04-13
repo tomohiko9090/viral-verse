@@ -34,7 +34,14 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
   config.active_record.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
-  # 4.その他の機能設定
+  # # 4.セッションストアとドメイン設定を追加
+  # config.session_store :cookie_store,
+  #   key: '_kuchikomi_elevator_session',
+  #   domain: 'viral-verse.com',
+  #   secure: true,
+  #   same_site: :lax
+
+  # 5.その他の機能設定
   config.active_storage.service = :local
   config.action_mailer.perform_caching = false
   config.i18n.fallbacks = true
