@@ -9,6 +9,22 @@
     <div class="col-lg-8">
       <div class="card shadow-sm">
         <div class="card-body p-4 text-center">
+          <%
+            service_name = ""
+
+            if @shop.url.present?
+              service_name = "Google"
+            end
+
+            if @shop.url_tripadvisor.present?
+              if service_name.present?
+                service_name += t('reviews.notice.connector.and') + "TripAdvisor"
+              else
+                service_name = "TripAdvisor"
+              end
+            end
+          %>
+
           <% if @review.score.between?(1, 3) %>
             <%# 評価が1-3の場合 %>
             <div class="mb-4">
@@ -17,7 +33,9 @@
             <h2 class="h3 mb-3"><%= t('reviews.notice.low_rating.title') %></h2>
             <p class="text-muted">
               <%= t('reviews.notice.low_rating.message') %><br><br>
-              <%= t('reviews.notice.low_rating.google_request') %>
+              <% if service_name.present? %>
+                <%= t('reviews.notice.low_rating.request', service_name: service_name) %>
+              <% end %>
             </p>
 
           <% else %>
@@ -28,7 +46,9 @@
             <h2 class="h3 mb-3"><%= t('reviews.notice.high_rating.title') %></h2>
             <p class="text-muted mb-4">
               <%= t('reviews.notice.high_rating.message') %><br>
-              <%= t('reviews.notice.high_rating.google_request') %>
+              <% if service_name.present? %>
+                <%= t('reviews.notice.high_rating.request', service_name: service_name) %>
+              <% end %>
             </p>
 
             <%# コメントコピー機能 %>

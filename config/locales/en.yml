@@ -2,7 +2,7 @@ en:
   reviews:
     new:
       thank_you: "Thank you for visiting us."
-      feedback_request: "Please share your honest feedback with us."
+      feedback_request: "Please share your honest review with us."
       error_count: "%{count} error(s) prohibited this review from being saved:"
       rating: "Rating"
       rating_instruction: "Click the stars to rate"
@@ -28,17 +28,19 @@ en:
       feedback_placeholder: "Example: Reservation system, menu variety, facilities, etc."
       submit_button: "Complete"
     notice:
+      connector:
+        and: " and "
       low_rating:
         icon_class: "bi bi-chat-square-heart text-primary"
         title: "Thank You for Your Feedback"
         message: "We take your feedback seriously and will use it to improve our services."
-        google_request: "If you'd like, please also rate us on Google Maps."
+        request: "If you'd like, please also rate us on %{service_name}."
       high_rating:
         icon_class: "bi bi-hand-thumbs-up text-warning"
         title: "Thank You for Your Review!"
         message: "We're glad you enjoyed your experience!"
-        google_request: "If you'd like, please also rate us on Google Maps."
-      comment_placeholder: "You can copy & paste this comment to your Google review"
+        request: "If you'd like, please also rate us on %{service_name}."
+      comment_placeholder: "You can copy & paste this comment to your review"
       copy_button: "Copy Comment"
       copy_tooltip: "Click to copy to clipboard"
       google_button: "Write a Google Review"
