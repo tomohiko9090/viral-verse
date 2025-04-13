@@ -39,10 +39,10 @@ class Shop < ApplicationRecord
       color: 'black',
       file: nil,
       fill: 'white',
-      module_px_size: 6,
+      module_px_size: 12,
       resize_exactly_to: false,
       resize_gte_to: false,
-      size: 120
+      size: 360
     )
 
     file_name = "shop_review_qr_#{id}_#{locale}.png"
