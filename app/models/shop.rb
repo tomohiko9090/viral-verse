@@ -29,7 +29,7 @@ class Shop < ApplicationRecord
   end
 
   def generate_qr_code(locale)
-    host = Rails.env.production? ? 'https://***REMOVED***' : 'http://127.0.0.1:3000'
+    host = Rails.env.production? ? 'https://viral-verse.com' : 'http://127.0.0.1:3000'
     review_url = Rails.application.routes.url_helpers.localized_new_shop_reviews_url(self, locale: locale, host: host)
     qr = RQRCode::QRCode.new(review_url)
     png = qr.as_png(
