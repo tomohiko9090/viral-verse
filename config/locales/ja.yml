@@ -28,17 +28,19 @@ ja:
       feedback_placeholder: "例：予約システム、メニューの種類、設備など"
       submit_button: "完了"
     notice:
+      connector:
+        and: "と"
       low_rating:
         icon_class: "bi bi-chat-square-heart text-primary"
         title: "フィードバックありがとうございました"
         message: "いただいたご意見を真摯に受け止め、サービスの改善に活かしてまいります。"
-        google_request: "よろしければ、Googleマップの口コミにも評価お願いします。"
+        request: "よろしければ、%{service_name}の口コミにも評価お願いします。"
       high_rating:
         icon_class: "bi bi-hand-thumbs-up text-warning"
         title: "レビューありがとうございます！"
         message: "ご満足いただけて嬉しいです！"
-        google_request: "よろしければ、Googleマップの口コミにも評価お願いします。"
-      comment_placeholder: "こちらのコメントをGoogleの口コミにコピー＆ペーストしていただけます"
+        request: "よろしければ、%{service_name}の口コミにも評価お願いします。"
+      comment_placeholder: "こちらのコメントをコピー＆ペーストしていただけます"
       copy_button: "コメントをコピー"
       copy_tooltip: "クリックでクリップボードにコピー"
       google_button: "Google口コミを書く"
