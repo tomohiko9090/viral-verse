@@ -1,5 +1,3 @@
-require "active_support/core_ext/integer/time"
-
 Rails.application.configure do
   # 1.基本設定
   config.enable_reloading = false
@@ -23,7 +21,7 @@ Rails.application.configure do
   config.action_dispatch.cookies_expire_after = 24.hours
   config.action_controller.forgery_protection_origin_check = false
 
-  # 3.ログとデバッグの設定
+  # 4.ログとデバッグの設定
   config.logger = ActiveSupport::Logger.new(STDOUT)
     .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
     .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
@@ -34,7 +32,14 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
   config.active_record.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
-  # 4.その他の機能設定
+  # 5.セッションストアとドメイン設定を追加
+  Rails.application.config.session_store :cookie_store,
+   key: '_kuchikomi_elevator_session',
+   domain: 'viral-verse.com',
+   secure: false,
+   same_site: :lax
+
+  # 6.その他の機能設定
   config.active_storage.service = :local
   config.action_mailer.perform_caching = false
   config.i18n.fallbacks = true
