@@ -1,16 +1,3 @@
-# 暫定デプロイ手順
-1. ssh -i ~/.ssh/***REMOVED*** ec2-user@***REMOVED***
-2. cd /var/www/kuchikomi-elevator
-3. git pull origin main
-4. 以下実行
-```
-RAILS_ENV=production bundle exec rails assets:clean
-RAILS_ENV=production bundle exec rails assets:clobber
-RAILS_ENV=production bundle exec rails assets:precompile
-kill -QUIT `cat tmp/pids/unicorn.pid`
-RAILS_ENV=production bundle exec unicorn_rails -c config/unicorn.rb -E production -D
-```
-
 # ユーザー権限と機能アクセス
 
 | ユーザー権限 | 利用者 | アクセス範囲 | ShopsController | ReviewsController |
@@ -342,17 +329,3 @@ RAILS_ENV=production bundle exec unicorn_rails -c config/unicron.rb -E productio
 ```
 sudo systemctl restart nginx
 ```
-
-export DB_USERNAME=root
-export DB_PASSWORD=***REMOVED***
-export PROD_DB_NAME=kuchikomi_elevator_production
-export PROD_DB_USERNAME=root
-export PROD_DB_PASSWORD='***REMOVED***'
-export PROD_DB_SOCKET=/var/lib/mysql/mysql.sock
-export SECRET_KEY_BASE="***REMOVED***"
-export RAILS_ENV=production
-export BUNDLE_GEMFILE=/var/www/kuchikomi-elevator/Gemfile
-
-
-⌘ + D  ペインを横に分割する
-⌘ + Shift + D	 ペインを縦に分割する
