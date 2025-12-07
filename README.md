@@ -307,9 +307,7 @@ graph TD
 
 ```
 <script type="importmap">
-にある順番で
-curl -k https://***REMOVED***/shops/1/reviews/new
-の順番で読み込まれていく
+にある順番で読み込まれていく
 ```
 
 - JSやCSSの変更 → アセット関連コマンドとUnicornの再起動
