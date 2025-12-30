@@ -1,6 +1,9 @@
 # Viral Verse
 
 店舗向け顧客満足度向上支援システム - QRコードを活用したレビュー収集と分析プラットフォーム
+お客さんが書く「レビューの一節」が口コミが拡散していくという意味で、Viral Verseというプロダクト名にしました。
+
+<img width="1296" height="712" alt="スクリーンショット 2025-12-30 11 40 25" src="https://github.com/user-attachments/assets/476ccc47-52e7-4e8e-a0e3-504d5ff58c19" />
 
 ## 概要
 
