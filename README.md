@@ -21,7 +21,7 @@ QRコードを通じて顧客が簡単にレビューを投稿でき、多言語
 <img width="700" height="700" alt="スクリーンショット 2026-01-05 0 19 45" src="https://github.com/user-attachments/assets/b5090fed-1b8f-47bf-934d-e37ff19ef2be" />
   
 **ステップ4**  
-管理者は、口コミを確認して改善します  
+管理者は、口コミを確認して改善に役立てます  
 <img width="700" height="1030" alt="スクリーンショット 2026-01-05 0 13 11" src="https://github.com/user-attachments/assets/f4ce5222-3a51-4615-9562-58eb51b5f589" />
 
 
