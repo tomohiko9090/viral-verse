@@ -8,21 +8,33 @@ QRコードを通じて顧客が簡単にレビューを投稿でき、多言語
 
 ### 簡単な使い方の説明
 
-**ステップ1**  
-管理者は、管理画面から各種設定を行います  
-<img width="700" border="1" height="1060" alt="スクリーンショット 2026-01-05 0 12 04" src="https://github.com/user-attachments/assets/0b0db604-ecf7-4a8a-b60d-3caa198d4ddd" />
-  
-**ステップ2**  
-レビュー者は、QRコードを読み取りアンケート画面へ  
-<img width="700" style="border: 5px solid #ccc;" height="761" alt="スクリーンショット 2026-01-05 0 12 34" src="https://github.com/user-attachments/assets/baf99106-cbee-4c49-b482-236c52ead6c3" />
-  
-**ステップ3**  
-レビューが終わり次第、google口コミやTripAdvisor口コミページへと促します  
-<img width="700" style="border: 5px solid #ccc;" height="700" alt="スクリーンショット 2026-01-05 0 19 45" src="https://github.com/user-attachments/assets/b5090fed-1b8f-47bf-934d-e37ff19ef2be" />
-  
-**ステップ4**  
-管理者は、口コミを確認して改善に役立てます  
-<img width="700" style="border: 5px solid #ccc;" height="1030" alt="スクリーンショット 2026-01-05 0 13 11" src="https://github.com/user-attachments/assets/f4ce5222-3a51-4615-9562-58eb51b5f589" />
+### ステップ1
+管理者は、管理画面から各種設定を行います
+
+| |
+|:---:|
+| <img width="700" alt="スクリーンショット 2026-01-05 0 31 44" src="https://github.com/user-attachments/assets/2d735e14-ed80-46a4-b0f8-e7a269ec148d" /> |
+
+### ステップ2
+レビュー者は、QRコードを読み取りアンケート画面へ
+
+| |
+|:---:|
+| <img width="700" alt="QRコード読み取り画面" src="https://github.com/user-attachments/assets/baf99106-cbee-4c49-b482-236c52ead6c3" /> |
+
+### ステップ3
+レビューが終わり次第、Google口コミやTripAdvisor口コミページへと促します
+
+| |
+|:---:|
+| <img width="700" alt="口コミページへの誘導" src="https://github.com/user-attachments/assets/b5090fed-1b8f-47bf-934d-e37ff19ef2be" /> |
+
+### ステップ4
+管理者は、口コミを確認して改善に役立てます
+
+| |
+|:---:|
+| <img width="700" alt="口コミ確認画面" src="https://github.com/user-attachments/assets/f4ce5222-3a51-4615-9562-58eb51b5f589" /> |
 
 
 ### 主な機能
