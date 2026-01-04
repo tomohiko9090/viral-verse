@@ -1,14 +1,27 @@
 # Viral Verse
 
-店舗向け顧客満足度向上支援システム - QRコードを活用したレビュー収集と分析プラットフォーム  
+Viral Verseは、飲食店や小売店などの店舗オーナーが顧客からのフィードバックを効率的に収集し、Google口コミ、TripAdvisor口コミの獲得を促進するWebアプリケーションです。
+QRコードを通じて顧客が簡単にレビューを投稿でき、多言語対応により訪日外国人にも対応しています。  
 お客さんが書く「レビューの一節」が口コミが拡散していくという意味で、Viral Verseというプロダクト名にしました。
 
-<img width="1296" height="712" alt="スクリーンショット 2025-12-30 11 40 25" src="https://github.com/user-attachments/assets/476ccc47-52e7-4e8e-a0e3-504d5ff58c19" />
+## 簡単な使い方の説明
+
+ステップ1: 管理者は、管理画面から各種設定を行います
+<img width="700" height="1060" alt="スクリーンショット 2026-01-05 0 12 04" src="https://github.com/user-attachments/assets/0b0db604-ecf7-4a8a-b60d-3caa198d4ddd" />
+
+ステップ2: レビュー者は、QRコードを読み取りアンケート画面へ
+<img width="700" height="761" alt="スクリーンショット 2026-01-05 0 12 34" src="https://github.com/user-attachments/assets/baf99106-cbee-4c49-b482-236c52ead6c3" />
+
+ステップ3: レビューが終わり次第、google口コミやTripAdvisor口コミページへと促します
+<img width="700" height="700" alt="スクリーンショット 2026-01-05 0 19 45" src="https://github.com/user-attachments/assets/b5090fed-1b8f-47bf-934d-e37ff19ef2be" />
+
+ステップ4: 管理者は、口コミを確認して改善します
+<img width="700" height="1030" alt="スクリーンショット 2026-01-05 0 13 11" src="https://github.com/user-attachments/assets/f4ce5222-3a51-4615-9562-58eb51b5f589" />
+
 
 ## 概要
 
-Viral Verseは、飲食店や小売店などの店舗オーナーが顧客からのフィードバックを効率的に収集し、Google口コミの獲得を促進するWebアプリケーションです。
-QRコードを通じて顧客が簡単にレビューを投稿でき、多言語対応により訪日外国人にも対応しています。
+
 
 ### 主な機能
 
