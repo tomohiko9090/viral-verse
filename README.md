@@ -10,7 +10,7 @@ QRコードを通じて顧客が簡単にレビューを投稿でき、多言語
 
 **ステップ1**  
 管理者は、管理画面から各種設定を行います  
-<img width="700" style="border: 5px solid #ccc;" height="1060" alt="スクリーンショット 2026-01-05 0 12 04" src="https://github.com/user-attachments/assets/0b0db604-ecf7-4a8a-b60d-3caa198d4ddd" />
+<img width="700" border="1" height="1060" alt="スクリーンショット 2026-01-05 0 12 04" src="https://github.com/user-attachments/assets/0b0db604-ecf7-4a8a-b60d-3caa198d4ddd" />
   
 **ステップ2**  
 レビュー者は、QRコードを読み取りアンケート画面へ  
