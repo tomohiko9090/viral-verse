@@ -87,7 +87,60 @@ flowchart TD
 
 ### データベース設計
 
-ER図: https://drawsql.app/teams/--109/diagrams/kuchikomi-elevator-2
+
+```mermaid
+erDiagram
+    users ||--o{ shop_users : "has many"
+    shops ||--o{ shop_users : "has many"
+    users ||--o{ reviews : "has many"
+    shops ||--o{ reviews : "has many"
+
+    users {
+        bigint id PK
+        string name "ユーザー名"
+        string email UK "メールアドレス"
+        string password_digest "パスワードハッシュ"
+        integer role "権限(1:admin,2:owner,3:multipul_owner)"
+        integer language_id "言語ID"
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at "論理削除"
+    }
+
+    shops {
+        bigint id PK
+        string name "店舗名"
+        text url UK "Google URL"
+        text url_tripadvisor "TripAdvisor URL"
+        string qr_code_ja "日本語QRコード"
+        string qr_code_en "英語QRコード"
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at "論理削除"
+    }
+
+    shop_users {
+        bigint id PK
+        bigint shop_id FK
+        bigint user_id FK
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at "論理削除"
+    }
+
+    reviews {
+        bigint id PK
+        bigint shop_id FK
+        bigint user_id FK "未ログイン時null"
+        integer score "評価点数(1-5)"
+        text comments "レビューコメント"
+        text feedback1 "アンケート回答1"
+        text feedback2 "アンケート回答2"
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at "論理削除"
+    }
+```
 
 ### フロントエンド構成
 
