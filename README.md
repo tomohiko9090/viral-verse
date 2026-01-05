@@ -1,5 +1,6 @@
 # Viral Verse
 
+
 ## 概要
 
 Viral Verseは、飲食店や小売店などの店舗オーナーが顧客からのフィードバックを効率的に収集し、Google口コミ、TripAdvisor口コミを促進するWebアプリです。  
